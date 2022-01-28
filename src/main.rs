@@ -31,10 +31,14 @@ impl Component for App {
     fn view(&self, ctx: &Context<Self>) -> Html {
         html!(
             <div>
-                <p>{ self.weather}</p>
+                <p>{ self.weather }</p>
 
                 <button class="button" onclick={ctx.link().callback(|_| Msg::Update)}>
-                    { "+1" }
+                    { "Toggle" }
+                </button>
+
+                <button class="button" onClick="window.location.reload();">
+                    { "Reload" }
                 </button>
             </div>
         )
