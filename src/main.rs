@@ -1,8 +1,7 @@
 use yew::prelude::*;
 
 pub enum Msg {
-    Stormy,
-    Sunny,
+    Update,
 }
 
 pub struct App {
@@ -22,15 +21,22 @@ impl Component for App {
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            Msg::Stormy => self.weather = true,
-            Msg::Sunny => self.weather = false,
+            Msg::Update => {
+                self.weather = !self.weather;
+                true
+            }
         }
-        true
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         html!(
-            <p>{ self.weather}</p>
+            <div>
+                <p>{ self.weather}</p>
+
+                <button class="button" onclick={ctx.link().callback(|_| Msg::Update)}>
+                    { "+1" }
+                </button>
+            </div>
         )
     }
 }
