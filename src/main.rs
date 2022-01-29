@@ -40,6 +40,18 @@ impl Component for App {
                 <button class="button" onClick="window.location.reload();">
                     { "Reload" }
                 </button>
+                <style>
+                    { "
+                        body {
+                            background-image: url({
+                                match self.weather {
+                                    true => \"thunder.jpg\",
+                                    false => \"sunny.jpg\",
+                                }
+                            });
+                        }
+                    " }
+                </style>
             </div>
         )
     }
