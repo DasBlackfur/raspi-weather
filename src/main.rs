@@ -30,7 +30,12 @@ impl Component for App {
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         html!(
-            <div>
+            <div style={
+                match self.weather {
+                    true => "background-color: #00ff00;",
+                    false => "background-color: #ff0000;",
+                }
+            }>
                 <p>{ self.weather }</p>
 
                 <button class="button" onclick={ctx.link().callback(|_| Msg::Update)}>
@@ -40,18 +45,6 @@ impl Component for App {
                 <button class="button" onClick="window.location.reload();">
                     { "Reload" }
                 </button>
-                <style>
-                    { "
-                        body {
-                            background-image: url({
-                                match self.weather {
-                                    true => \"thunder.jpg\",
-                                    false => \"sunny.jpg\",
-                                }
-                            });
-                        }
-                    " }
-                </style>
             </div>
         )
     }
