@@ -6,6 +6,7 @@ pub enum Msg {
 
 pub struct App {
     weather: bool,
+    temprature: f32,
 }
 
 #[allow(unused_variables)]
@@ -16,6 +17,7 @@ impl Component for App {
     fn create(ctx: &Context<Self>) -> Self {
         Self {
             weather: false,
+            temprature: 0.0,
         }
     }
 
@@ -41,6 +43,7 @@ impl Component for App {
                     <button class="button" onClick="window.location.reload();">
                         { "Reload" }
                     </button>
+                    <p>{ self.temprature }</p> 
                 </div>
                 <style>
                     { "body {" }
