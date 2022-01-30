@@ -46,8 +46,8 @@ impl Component for App {
                     { "body {" }
                     { "background-image: url(" }
                     { match self.weather {
-                        true => "sunny.jpg",
-                        false => "thunder.jpg",
+                        false => "sunny.jpg",
+                        true => "thunder.jpg",
                     } }
                     { ");" }
                     { "}" }
