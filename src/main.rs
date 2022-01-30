@@ -2,10 +2,12 @@ use yew::prelude::*;
 
 pub enum Msg {
     Update,
+    Settings,
 }
 
 pub struct App {
     weather: bool,
+    settings: bool,
     temprature: f32,
 }
 
@@ -18,6 +20,7 @@ impl Component for App {
         Self {
             weather: false,
             temprature: 0.0,
+            settings: false,
         }
     }
 
@@ -27,36 +30,57 @@ impl Component for App {
                 self.weather = !self.weather;
                 true
             }
+            Msg::Settings => {
+                self.settings = !self.settings;
+                true
+            },
         }
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        html!(
-            <>
-                <div>
-                    <p>{ self.weather }</p>
+        match self.settings {
+            true => {
+                html!(
+                    <div>
+                        <button class="button" onclick={ctx.link().callback(|_| Msg::Update)}>
+                            { "Toggle Weather" }
+                        </button>
 
-                    <button class="button" onclick={ctx.link().callback(|_| Msg::Update)}>
-                        { "Toggle" }
-                    </button>
+                        <button class="button" onClick="window.location.reload();">
+                            { "Reload" }
+                        </button>
 
-                    <button class="button" onClick="window.location.reload();">
-                        { "Reload" }
-                    </button>
-                    <p>{ self.temprature }</p> 
-                </div>
-                <style>
-                    { "body {" }
-                    { "background-image: url(" }
-                    { match self.weather {
-                        false => "sunny.jpg",
-                        true => "thunder.jpg",
-                    } }
-                    { ");" }
-                    { "}" }
-                </style>
-            </>
-        )
+                        <button class="button" onclick={ctx.link().callback(|_| Msg::Settings)}>
+                            { "Exit Settings" }
+                        </button>
+                    </div>
+                )
+            },
+            false => {
+                html!(
+                    <>
+                        <div>
+                            <p>{ self.weather }</p>
+                            <p>{ self.temprature }</p>
+                            <button class="button" onclick={ctx.link().callback(|_| Msg::Settings)}>
+                                { "Open Settings" }
+                            </button>
+
+                        </div>
+                        <style>
+                            { "body {" }
+                            { "background-image: url(" }
+                            { match self.weather {
+                                false => "sunny.jpg",
+                                true => "thunder.jpg",
+                            } }
+                            { ");" }
+                            { "}" }
+                        </style>
+                    </>
+                )
+            },
+        }
     }
 }
 
