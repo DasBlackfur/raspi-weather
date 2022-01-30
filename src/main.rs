@@ -41,19 +41,31 @@ impl Component for App {
         match self.settings {
             true => {
                 html!(
-                    <div>
-                        <button class="button" onclick={ctx.link().callback(|_| Msg::Update)}>
-                            { "Toggle Weather" }
-                        </button>
+                    <>
+                        <div>
+                            <button class="button" onclick={ctx.link().callback(|_| Msg::Update)}>
+                                { "Toggle Weather" }
+                            </button>
 
-                        <button class="button" onClick="window.location.reload();">
-                            { "Reload" }
-                        </button>
+                            <button class="button" onClick="window.location.reload();">
+                                { "Reload" }
+                            </button>
 
-                        <button class="button" onclick={ctx.link().callback(|_| Msg::Settings)}>
-                            { "Exit Settings" }
-                        </button>
-                    </div>
+                            <button class="button" onclick={ctx.link().callback(|_| Msg::Settings)}>
+                                { "Exit Settings" }
+                            </button>
+                        </div>
+                        <style>
+                            { "body {" }
+                            { "background-image: url(" }
+                            { match self.weather {
+                                false => "sunny.jpg",
+                                true => "thunder.jpg",
+                            } }
+                            { ");" }
+                            { "}" }
+                        </style>
+                    </>
                 )
             },
             false => {
