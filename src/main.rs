@@ -54,7 +54,7 @@ impl Component for App {
                             <button class="button" onclick={ctx.link().callback(|_| Msg::Settings)}>
                                 { "Exit Settings" }
                             </button>
-                            <a href="test.html">
+                            <a href="/test.html">
                                 { "Go to test.html" }
                             </a>
                         </div>
