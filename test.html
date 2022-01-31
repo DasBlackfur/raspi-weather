@@ -1,43 +1,48 @@
 <!DOCTYPE html>
 
 <html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
     <body>
-        <table>
-            <tr>
-                <td>
-                    A
-                </td>
-                <td>
-                    B
-                </td>
-                <td>
-                    C
-                </td>
-                <td>
-                    D
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    E
-                </td>
-                <td>
-                    F
-                </td>
-                <td>
-                    G
-                </td>
-                <td>
-                    H
-                </td>
-            </tr>
-        </table>
+        <div class="grid-wrapper">
+            <div>
+                A
+            </div>
+            <div>
+                B
+            </div>
+            <div>
+                C
+            </div>
+            <div>
+                D
+            </div>
+            <div>
+                E
+            </div>
+            <div>
+                F
+            </div>
+            <div>
+                G
+            </div>
+            <div>
+                H
+            </div>
+        </div>
         <style>
-            tr {
-                height: 50%;
+            .grid-wrapper {
+                display: grid;
+                grid-template-areas: 
+                  "a b c d"
+                  "e f g h";
+              }
+            body {
+                margin: 0;
             }
-            td {
-                height: 50%;
+            .grid-wrapper {
+                height: 100vh;
             }
         </style>
     </body>
