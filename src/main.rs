@@ -74,22 +74,49 @@ impl Component for App {
             false => {
                 html!(
                     <>
-                        <div>
-                            <p>{ self.weather }</p>
-                            <p>{ self.temprature }</p>
-                            <button class="button" onclick={ctx.link().callback(|_| Msg::Settings)}>
-                                { "Open Settings" }
-                            </button>
-
+                        <div class="grid-wrapper">
+                            <div>
+                                <p>{ self.temprature }</p>
+                            </div>
+                            <div>
+                                <button class="button" onclick={ctx.link().callback(|_| Msg::Settings)}>
+                                    { "Open Settings" }
+                                </button>
+                            </div>
+                            <div>
+                                { "C" }
+                            </div>
+                            <div>
+                                { "D" }
+                            </div>
+                            <div>
+                                { "E" }
+                            </div>
+                            <div>
+                                { "F" }
+                            </div>
+                            <div>
+                                { "G" }
+                            </div>
+                            <div>
+                                { "H" }
+                            </div>
                         </div>
                         <style>
-                            { "body {" }
+                            { ".grid-wrapper {" }
+                            { "display: grid;" }
+                            { "grid-template-columns: repeat(4, 1fr);" }
+                            { "grid-template-rows: repeat(2, 1fr);" }
+                            { "height: 100vh;" }
+                            { "}" }
+                            { "body {"}
                             { "background-image: url(" }
                             { match self.weather {
                                 false => "sunny.jpg",
                                 true => "thunder.jpg",
                             } }
                             { ");" }
+                            { "margin: 0;"}
                             { "}" }
                         </style>
                     </>
