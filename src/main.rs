@@ -79,12 +79,12 @@ impl Component for App {
                                 <p>{ self.temprature }</p>
                             </div>
                             <div>
+                                <p>{ self.weather }</p>
+                            </div>
+                            <div>
                                 <button class="button" onclick={ctx.link().callback(|_| Msg::Settings)}>
                                     { "Open Settings" }
                                 </button>
-                            </div>
-                            <div>
-                                { "C" }
                             </div>
                             <div>
                                 { "D" }
