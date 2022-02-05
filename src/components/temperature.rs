@@ -19,7 +19,7 @@ impl Component for TemperatureComponent {
         html!{
             <svg width="200px" height="200px">
                 <defs>
-                    <@{"linearGradient"} id="grad" x1="0" x2="0" y1="0" y2="1">
+                    <@{"linearGradient".to_ascii_uppercase()} id="grad" x1="0" x2="0" y1="0" y2="1">
                         <stop offset="0%" stop-color="rgba(0, 0, 0, 0)" />
                         <stop offset="25%" stop-color="rgba(0, 0, 0, 0)" />
                         <stop offset="25%" stop-color="rgba(calc(2.55*75), 0, 0, 255)"/>
