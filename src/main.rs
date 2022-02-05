@@ -25,7 +25,7 @@ impl Component for App {
         Self {
             weather: false,
             settings: false,
-            temperature: 0.0,
+            temperature: 11.0,
         }
     }
 
