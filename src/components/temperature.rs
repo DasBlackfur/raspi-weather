@@ -1,8 +1,6 @@
 use gloo_utils::document;
 use web_sys::Element;
-use yew::{html, Component, Html};
-
-const HTML: &str = include_str!("temperature.html");
+use yew::{Component, Html};
 
 pub struct TemperatureComponent {
     temperature: f32,
@@ -19,7 +17,7 @@ impl Component for TemperatureComponent {
 
     fn view(&self, ctx: &yew::Context<Self>) -> yew::Html {
         let div: Element = document().create_element("div").unwrap();
-        div.set_inner_html(HTML);
+        div.set_inner_html(&format!(include_str!("temperature.html"), temperature=self.temperature));
         Html::VRef(div.into())
     }
 }
