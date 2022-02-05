@@ -1,5 +1,9 @@
 use yew::prelude::*;
 
+mod components;
+
+use components::temperature::TemperatureComponent;
+
 pub enum Msg {
     Update,
     Settings,
@@ -8,7 +12,6 @@ pub enum Msg {
 pub struct App {
     weather: bool,
     settings: bool,
-    temprature: f32,
 }
 
 #[allow(unused_variables)]
@@ -19,7 +22,6 @@ impl Component for App {
     fn create(ctx: &Context<Self>) -> Self {
         Self {
             weather: false,
-            temprature: 0.0,
             settings: false,
         }
     }
@@ -73,7 +75,7 @@ impl Component for App {
                     <>
                         <div class="grid-wrapper">
                             <div>
-                                <p>{ self.temprature }</p>
+                                <TemperatureComponent/>
                             </div>
                             <div>
                                 <p>{ self.weather }</p>
