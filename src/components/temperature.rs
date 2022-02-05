@@ -1,7 +1,6 @@
-
 use gloo_utils::document;
 use web_sys::Element;
-use yew::{Component, html, Html};
+use yew::{html, Component, Html};
 
 const HTML: &str = include_str!("temperature.html");
 
@@ -15,9 +14,7 @@ impl Component for TemperatureComponent {
     type Properties = ();
 
     fn create(ctx: &yew::Context<Self>) -> Self {
-        Self {
-            temperature: 0.0,
-        }
+        Self { temperature: 0.0 }
     }
 
     fn view(&self, ctx: &yew::Context<Self>) -> yew::Html {

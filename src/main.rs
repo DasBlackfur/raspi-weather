@@ -35,7 +35,7 @@ impl Component for App {
             Msg::Settings => {
                 self.settings = !self.settings;
                 true
-            },
+            }
         }
     }
 
@@ -69,7 +69,7 @@ impl Component for App {
                         </style>
                     </>
                 )
-            },
+            }
             false => {
                 html!(
                     <>
@@ -120,11 +120,11 @@ impl Component for App {
                         </style>
                     </>
                 )
-            },
+            }
         }
     }
 }
 
-fn main(){
+fn main() {
     yew::start_app::<App>();
 }
