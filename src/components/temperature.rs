@@ -1,23 +1,26 @@
 use gloo_utils::document;
 use web_sys::Element;
-use yew::{Component, Html};
+use yew::{Component, Html, Properties};
 
-pub struct TemperatureComponent {
-    temperature: f32,
+pub struct TemperatureComponent;
+
+#[derive(Clone, PartialEq, Properties)]
+pub struct Props {
+    pub temperature: f32,
 }
 
 impl Component for TemperatureComponent {
     type Message = ();
 
-    type Properties = ();
+    type Properties = Props;
 
     fn create(ctx: &yew::Context<Self>) -> Self {
-        Self { temperature: 0.0 }
+        Self
     }
 
     fn view(&self, ctx: &yew::Context<Self>) -> yew::Html {
         let div: Element = document().create_element("div").unwrap();
-        div.set_inner_html(&format!(include_str!("temperature.html"), temperature=self.temperature));
+        div.set_inner_html(&format!(include_str!("temperature.html"), temperature=&ctx.props().temperature));
         Html::VRef(div.into())
     }
 }

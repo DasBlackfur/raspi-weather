@@ -7,9 +7,11 @@ use components::temperature::TemperatureComponent;
 pub enum Msg {
     Update,
     Settings,
+    Increment
 }
 
 pub struct App {
+    temperature: f32,
     weather: bool,
     settings: bool,
 }
@@ -23,6 +25,7 @@ impl Component for App {
         Self {
             weather: false,
             settings: false,
+            temperature: 0.0,
         }
     }
 
@@ -36,6 +39,10 @@ impl Component for App {
                 self.settings = !self.settings;
                 true
             }
+            Msg::Increment => {
+                self.temperature += 1.0;
+                true
+            },
         }
     }
 
@@ -56,6 +63,10 @@ impl Component for App {
                             <button class="button" onclick={ctx.link().callback(|_| Msg::Settings)}>
                                 { "Exit Settings" }
                             </button>
+
+                            <button class="button" onclick={ctx.link().callback(|_| Msg::Increment)}>
+                                { "Increment"}
+                            </button>
                         </div>
                         <style>
                             { "body {" }
@@ -75,7 +86,7 @@ impl Component for App {
                     <>
                         <div class="grid-wrapper">
                             <div>
-                                <TemperatureComponent/>
+                                <TemperatureComponent temperature={self.temperature}/>
                             </div>
                             <div>
                                 <p>{ self.weather }</p>
