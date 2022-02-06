@@ -4,6 +4,7 @@ mod components;
 
 use components::temperature::TemperatureComponent;
 use components::wind_angle::WindAngleComponent;
+use components::weather::WeatherComponent;
 
 pub enum Msg {
     Update,

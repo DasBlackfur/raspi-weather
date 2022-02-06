@@ -22,7 +22,7 @@ impl Component for TemperatureComponent {
         let div: Element = document().create_element("div").unwrap();
         let temperature = ctx.props().temperature;
         div.set_inner_html(&format!(
-            include_str!("temperature.html"),
+            include_str!("sources/temperature.html"),
             temperature = temperature,
             percent = (100 - get_percent_from_temperature(temperature)),
             inv_percent = get_percent_from_temperature(temperature)
