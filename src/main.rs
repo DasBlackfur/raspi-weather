@@ -15,6 +15,7 @@ pub struct App {
     temperature: f32,
     weather: bool,
     settings: bool,
+    wind_angle: i16,
 }
 
 #[allow(unused_variables)]
@@ -26,7 +27,8 @@ impl Component for App {
         Self {
             weather: false,
             settings: false,
-            temperature: 11.0,
+            temperature: 0.0,
+            wind_angle: 0,
         }
     }
 
@@ -42,6 +44,7 @@ impl Component for App {
             }
             Msg::Increment => {
                 self.temperature += 1.0;
+                self.wind_angle += 1;
                 true
             }
         }
@@ -87,7 +90,7 @@ impl Component for App {
                     <>
                         <div class="grid-wrapper">
                             <div>
-                                <WindAngleComponent wind_angle=30 />
+                                <WindAngleComponent wind_angle={self.wind_angle} />
                             </div>
                             <div>
                                 <TemperatureComponent temperature={self.temperature}/>
