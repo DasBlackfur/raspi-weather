@@ -3,6 +3,7 @@ use yew::prelude::*;
 mod components;
 
 use components::temperature::TemperatureComponent;
+use components::wind_angle::WindAngleComponent;
 
 pub enum Msg {
     Update,
@@ -86,10 +87,10 @@ impl Component for App {
                     <>
                         <div class="grid-wrapper">
                             <div>
-                                <TemperatureComponent temperature={self.temperature}/>
+                                <WindAngleComponent wind_angle=30 />
                             </div>
                             <div>
-                                <p>{ self.weather }</p>
+                                <TemperatureComponent temperature={self.temperature}/>
                             </div>
                             <div>
                                 <button class="button" onclick={ctx.link().callback(|_| Msg::Settings)}>
