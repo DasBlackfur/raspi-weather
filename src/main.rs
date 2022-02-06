@@ -44,7 +44,7 @@ impl Component for App {
             }
             Msg::Increment => {
                 self.temperature += 1.0;
-                self.wind_angle += 1;
+                self.wind_angle += 5;
                 true
             }
         }
