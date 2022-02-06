@@ -20,7 +20,22 @@ impl Component for TemperatureComponent {
 
     fn view(&self, ctx: &yew::Context<Self>) -> yew::Html {
         let div: Element = document().create_element("div").unwrap();
-        div.set_inner_html(&format!(include_str!("temperature.html"), temperature=&ctx.props().temperature));
+        let temperature = ctx.props().temperature;
+        div.set_inner_html(&format!(
+            include_str!("temperature.html"),
+            temperature = temperature,
+            percent = get_percent_from_temperature(temperature),
+            inv_percent = (100 - get_percent_from_temperature(temperature))
+        ));
         Html::VRef(div.into())
+    }
+}
+
+fn get_percent_from_temperature(temperature: f32) -> u8 {
+    let percent = (temperature + 10.0) * 2.5;
+    match percent {
+        percent if percent > 100.0 => 100,
+        percent if percent < 0.0 => 0,
+        _ => percent as u8,
     }
 }

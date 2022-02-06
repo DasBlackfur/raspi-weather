@@ -7,7 +7,7 @@ use components::temperature::TemperatureComponent;
 pub enum Msg {
     Update,
     Settings,
-    Increment
+    Increment,
 }
 
 pub struct App {
@@ -42,7 +42,7 @@ impl Component for App {
             Msg::Increment => {
                 self.temperature += 1.0;
                 true
-            },
+            }
         }
     }
 
