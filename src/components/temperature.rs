@@ -24,8 +24,8 @@ impl Component for TemperatureComponent {
         div.set_inner_html(&format!(
             include_str!("temperature.html"),
             temperature = temperature,
-            percent = get_percent_from_temperature(temperature),
-            inv_percent = (100 - get_percent_from_temperature(temperature))
+            percent = (100 - get_percent_from_temperature(temperature)),
+            inv_percent = get_percent_from_temperature(temperature)
         ));
         Html::VRef(div.into())
     }
