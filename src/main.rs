@@ -56,6 +56,7 @@ impl Component for App {
             true => {
                 html!(
                     <>
+                        <div class="bg-image"/>
                         <div>
                             <button class="button" onclick={ctx.link().callback(|_| Msg::Update)}>
                                 { "Toggle Weather" }
@@ -74,7 +75,7 @@ impl Component for App {
                             </button>
                         </div>
                         <style>
-                            { "body {" }
+                            { ".bg-image {" }
                             { "background-image: url(" }
                             { match self.weather {
                                 false => "sunny.jpg",
@@ -89,6 +90,7 @@ impl Component for App {
             false => {
                 html!(
                     <>
+                        <div class="bg-image" />
                         <div class="grid-wrapper">
                             <div>
                                 <WindAngleComponent wind_angle={self.wind_angle} />
@@ -124,7 +126,7 @@ impl Component for App {
                             { "grid-template-rows: repeat(2, 1fr);" }
                             { "height: 100vh;" }
                             { "}" }
-                            { "body {"}
+                            { ".bg-image {"}
                             { "background-image: url(" }
                             { match self.weather {
                                 false => "sunny.jpg",
