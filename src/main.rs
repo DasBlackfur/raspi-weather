@@ -133,7 +133,6 @@ impl Component for App {
                                 true => "thunder.jpg",
                             } }
                             { ");" }
-                            { "margin: 0;"}
                             { "}" }
                         </style>
                     </>
