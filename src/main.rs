@@ -56,6 +56,7 @@ impl Component for App {
             true => {
                 html!(
                     <>
+                        <div class="bg-image"/>
                         <div>
                             <button class="button" onclick={ctx.link().callback(|_| Msg::Update)}>
                                 { "Toggle Weather" }
@@ -89,6 +90,7 @@ impl Component for App {
             false => {
                 html!(
                     <>
+                        <div class="bg-image" />
                         <div class="grid-wrapper">
                             <div>
                                 <WindAngleComponent wind_angle={self.wind_angle} />
