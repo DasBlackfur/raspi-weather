@@ -1,4 +1,4 @@
-use yew::{Component, html, Callback};
+use yew::{Component, html, Callback, Properties};
 use gloo::timers::callback::Interval;
 
 pub struct SettingsComponent {
@@ -9,8 +9,9 @@ pub enum Msg {
     Update,
 }
 
+#[derive(Clone, Properties, PartialEq)]
 pub struct Props {
-    settings_callback: Callback<>
+    settings_callback: Option<u8>
 }
 
 impl Component for SettingsComponent {
