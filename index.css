@@ -5,8 +5,6 @@ body {
 
 .bg-image {
     filter: blur(8px);
-    margin: 0px;
-    padding: 0px;
 }
 
 .button {

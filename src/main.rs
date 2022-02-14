@@ -75,7 +75,7 @@ impl Component for App {
                             </button>
                         </div>
                         <style>
-                            { ".bg-image {" }
+                            { "body {" }
                             { "background-image: url(" }
                             { match self.weather {
                                 false => "sunny.jpg",
@@ -126,7 +126,7 @@ impl Component for App {
                             { "grid-template-rows: repeat(2, 1fr);" }
                             { "height: 100vh;" }
                             { "}" }
-                            { ".bg-image {"}
+                            { "body {"}
                             { "background-image: url(" }
                             { match self.weather {
                                 false => "sunny.jpg",
