@@ -98,9 +98,7 @@ impl Component for App {
                                 <TemperatureComponent temperature={self.temperature}/>
                             </div>
                             <div>
-                                <button class="button" onclick={ctx.link().callback(|_| Msg::Settings)}>
-                                    { "Open Settings" }
-                                </button>
+                                { "C" }
                             </div>
                             <div>
                                 { "D" }
