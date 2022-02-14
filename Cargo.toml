@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 yew = "*"
 gloo-utils = "*"
+gloo = "*"
 js-sys = "*"
 
 

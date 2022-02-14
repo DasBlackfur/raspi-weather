@@ -1,14 +1,33 @@
 use yew::{Component, html};
+use gloo::timers::callback::Interval;
 
-pub struct SettingsComponent;
+pub struct SettingsComponent {
+    interval: Interval,
+}
+
+pub enum Msg {
+    Update,
+}
 
 impl Component for SettingsComponent {
-    type Message = ();
+    type Message = Msg;
 
     type Properties = ();
 
     fn create(ctx: &yew::Context<Self>) -> Self {
-        Self
+        let clock_hanlde = {
+            let link = ctx.link().clone();
+            Interval::new(1000, move || link.send_message(Msg::Update))
+        };
+        Self {
+            interval: clock_hanlde,
+        }
+    }
+
+    fn update(&mut self, _: &yew::Context<Self>, msg: Self::Message) -> bool {
+        match msg {
+            Msg::Update => true,
+        }
     }
 
     fn view(&self, ctx: &yew::Context<Self>) -> yew::Html {
