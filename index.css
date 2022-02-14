@@ -24,3 +24,10 @@ body {
     overflow: hidden;
     outline: none;
 }
+
+.grid-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    height: 100vh;
+}
