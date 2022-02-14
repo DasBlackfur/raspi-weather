@@ -1,12 +1,10 @@
 body {
     font-size: 300%;
-    margin: 0px;
 }
 
 
 .bg-image {
     filter: blur(8px);
-    height: 100%;
     margin: 0px;
     padding: 0px;
 }
