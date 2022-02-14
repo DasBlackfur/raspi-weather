@@ -118,12 +118,6 @@ impl Component for App {
                             </div>
                         </div>
                         <style>
-                            { ".grid-wrapper {" }
-                            { "display: grid;" }
-                            { "grid-template-columns: repeat(4, 1fr);" }
-                            { "grid-template-rows: repeat(2, 1fr);" }
-                            { "height: 100vh;" }
-                            { "}" }
                             { "body {"}
                             { "background-image: url(" }
                             { match self.weather {
