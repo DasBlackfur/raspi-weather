@@ -5,6 +5,7 @@ mod components;
 use components::temperature::TemperatureComponent;
 use components::weather::WeatherComponent;
 use components::wind_angle::WindAngleComponent;
+use components::settings::SettingsComponent;
 
 pub enum Msg {
     Update,
@@ -114,7 +115,7 @@ impl Component for App {
                                 { "G" }
                             </div>
                             <div>
-                                { "H" }
+                                <SettingsComponent/>
                             </div>
                         </div>
                         <style>
