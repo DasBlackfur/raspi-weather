@@ -3,8 +3,8 @@ use yew::prelude::*;
 mod components;
 
 use components::temperature::TemperatureComponent;
-use components::wind_angle::WindAngleComponent;
 use components::weather::WeatherComponent;
+use components::wind_angle::WindAngleComponent;
 
 pub enum Msg {
     Update,

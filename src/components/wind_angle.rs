@@ -1,6 +1,6 @@
 use gloo_utils::document;
 use web_sys::Element;
-use yew::{Properties, Html, Component};
+use yew::{Component, Html, Properties};
 
 pub struct WindAngleComponent;
 
@@ -21,7 +21,10 @@ impl Component for WindAngleComponent {
     fn view(&self, ctx: &yew::Context<Self>) -> yew::Html {
         let div: Element = document().create_element("div").unwrap();
         let wind_angle = ctx.props().wind_angle;
-        div.set_inner_html(&format!(include_str!("sources/wind_angle.html"), deg=wind_angle));
+        div.set_inner_html(&format!(
+            include_str!("sources/wind_angle.html"),
+            deg = wind_angle
+        ));
         Html::VRef(div.into())
     }
 }
