@@ -13,7 +13,7 @@ impl Component for SettingsComponent {
 
     fn view(&self, ctx: &yew::Context<Self>) -> yew::Html {
         html!{
-            <p style="font-size: 200%">
+            <p style="font-size: 50%">
                 { js_sys::Date::new_0().to_locale_time_string("de-DE").to_string() }
             </p>
         }
