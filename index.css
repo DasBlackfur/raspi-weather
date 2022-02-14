@@ -1,9 +1,5 @@
 body {
     font-size: 300%;
-}
-
-
-.bg-image {
     filter: blur(8px);
 }
 
