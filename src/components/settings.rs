@@ -11,7 +11,7 @@ pub enum Msg {
 
 #[derive(Clone, Properties, PartialEq)]
 pub struct Props {
-    settings_callback: Option<u8>
+    pub settings_callback: Callback<crate::App>
 }
 
 impl Component for SettingsComponent {

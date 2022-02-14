@@ -88,7 +88,6 @@ impl Component for App {
                 )
             }
             false => {
-                gloo::console::log!("{:?}", ctx.link().callback(|_| Msg::Update));
                 html!(
                     <>
                         <div class="grid-wrapper">
@@ -116,7 +115,7 @@ impl Component for App {
                                 { "G" }
                             </div>
                             <div>
-                                <SettingsComponent/>
+                                <SettingsComponent settings_callback={ctx.link().callback(|_| Msg::Settings)}/>
                             </div>
                         </div>
                         <style>
