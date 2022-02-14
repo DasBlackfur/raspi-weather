@@ -1,4 +1,4 @@
-use yew::{Component, html};
+use yew::{Component, html, Callback};
 use gloo::timers::callback::Interval;
 
 pub struct SettingsComponent {
@@ -9,10 +9,14 @@ pub enum Msg {
     Update,
 }
 
+pub struct Props {
+    settings_callback: Callback<>
+}
+
 impl Component for SettingsComponent {
     type Message = Msg;
 
-    type Properties = ();
+    type Properties = Props;
 
     fn create(ctx: &yew::Context<Self>) -> Self {
         let clock_hanlde = {

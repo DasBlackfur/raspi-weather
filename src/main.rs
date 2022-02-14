@@ -88,6 +88,7 @@ impl Component for App {
                 )
             }
             false => {
+                gloo::console::log!("{:?}", ctx.link().callback(|_| Msg::Update));
                 html!(
                     <>
                         <div class="grid-wrapper">
