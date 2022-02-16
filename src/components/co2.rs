@@ -24,7 +24,7 @@ impl Component for CO2Component {
                 <text x="40" y="73" style="font-size: 50px;">{ "!" }</text>
                 <text x="80" y="40" style="font-size: 25px;">{get_text_from_level(&level)}</text>
                 <text x="80" y="70" style="font-size: 25px;">{ "CO2" }</text>
-                <text x="10" y="130" style="font-size: 40px;">{ format!("{} ppo", &level) }</text>
+                <text x="10" y="130" style="font-size: 38px;">{ format!("{} ppo", &level) }</text>
             </svg>
         )
     }
