@@ -21,9 +21,9 @@ impl Component for CO2Component {
         html!(
             <svg width="200px" height="200px">
                 <polygon points="20,80 80,80, 50,20" stroke="black" stroke-width="5" fill={get_color_from_level(&level)}/>
-                <text x="42" y="73" style="font-size: 50px;">{ "!" }</text>
-                <text x="100" y="40" style="font-size: 25px;">{get_text_from_level(&level)}</text>
-                <text x="100" y="70" style="font-size: 25px;">{ "CO2" }</text>
+                <text x="40" y="73" style="font-size: 50px;">{ "!" }</text>
+                <text x="100" y="40" style="font-size: 20px;">{get_text_from_level(&level)}</text>
+                <text x="100" y="70" style="font-size: 20px;">{ "CO2" }</text>
                 <text x="20" y="130" style="font-size: 40px;">{ format!("{} ppo", &level) }</text>
             </svg>
         )

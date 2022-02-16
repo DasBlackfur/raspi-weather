@@ -102,7 +102,7 @@ impl Component for App {
                                 { "C" }
                             </div>
                             <div>
-                                <CO2Component co2level=950/>
+                                <CO2Component co2level=1000/>
                             </div>
                             <div>
                                 { "E" }
