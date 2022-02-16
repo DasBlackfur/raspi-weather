@@ -6,6 +6,7 @@ use components::temperature::TemperatureComponent;
 use components::weather::WeatherComponent;
 use components::wind_angle::WindAngleComponent;
 use components::settings::SettingsComponent;
+use components::co2::CO2Component;
 
 pub enum Msg {
     Update,
@@ -101,7 +102,7 @@ impl Component for App {
                                 { "C" }
                             </div>
                             <div>
-                                { "D" }
+                                <CO2Component co2level=950/>
                             </div>
                             <div>
                                 { "E" }
