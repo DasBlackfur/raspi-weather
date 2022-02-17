@@ -41,7 +41,7 @@ fn get_color_from_level(level: &u16) -> String {
 
 fn get_text_from_level(level: &u16) -> String {
     match level {
-        0..=900 => "Nominal".to_string(),
+        0..=900 => "Low".to_string(),
         901..=1000 => "Medium".to_string(),
         1001..=1100 => "High".to_string(),
         1101..=u16::MAX => "BROKEN".to_string()

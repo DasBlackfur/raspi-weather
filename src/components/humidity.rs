@@ -42,10 +42,10 @@ fn get_color_from_percent(percent: &u8) -> String {
 
 fn get_text_from_percent(percent: &u8) -> String {
     match percent {
-        91..=100 => "green".to_string(),
-        81..=90 => "yellow".to_string(),
-        61..=80 => "red".to_string(),
-        0..=60 => "blue".to_string(),
-        101..=u8::MAX => "blue".to_string()
+        91..=100 => "Good".to_string(),
+        81..=90 => "Medium".to_string(),
+        61..=80 => "Low".to_string(),
+        0..=60 => "BROKEN".to_string(),
+        101..=u8::MAX => "BROKEN".to_string()
     }
 }
