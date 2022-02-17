@@ -7,6 +7,7 @@ use components::weather::WeatherComponent;
 use components::wind_angle::WindAngleComponent;
 use components::settings::SettingsComponent;
 use components::co2::CO2Component;
+use components::humidity::HumidityComponent;
 
 pub enum Msg {
     Update,
@@ -19,6 +20,8 @@ pub struct App {
     weather: bool,
     settings: bool,
     wind_angle: i16,
+    co2: u16,
+    humidity: u8,
 }
 
 #[allow(unused_variables)]
@@ -32,6 +35,8 @@ impl Component for App {
             settings: false,
             temperature: 0.0,
             wind_angle: 0,
+            co2: 800,
+            humidity: 50,
         }
     }
 
@@ -48,6 +53,8 @@ impl Component for App {
             Msg::Increment => {
                 self.temperature += 1.0;
                 self.wind_angle += 5;
+                self.humidity += 10;
+                self.co2 += 100;
                 true
             }
         }
@@ -102,13 +109,13 @@ impl Component for App {
                                 { "C" }
                             </div>
                             <div>
-                                <CO2Component co2level=800/>
+                                <CO2Component co2level={self.co2} />
                             </div>
                             <div>
                                 { "E" }
                             </div>
                             <div>
-                                { "F" }
+                                <HumidityComponent humidity={self.humidity} />
                             </div>
                             <div>
                                 { "G" }
