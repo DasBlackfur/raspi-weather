@@ -24,7 +24,7 @@ impl Component for WindBagComponent {
         div.set_inner_html(&format!(
             include_str!("sources/wind_bag.html"),
             speed = speed,
-            deg = speed / 2
+            deg = speed / 2 + 75
         ));
         Html::VRef(div.into())
     }
