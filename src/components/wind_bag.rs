@@ -6,7 +6,7 @@ pub struct WindBagComponent;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
-    pub speed: u8
+    pub speed: i16
 }
 
 impl Component for WindBagComponent {
@@ -24,7 +24,7 @@ impl Component for WindBagComponent {
         div.set_inner_html(&format!(
             include_str!("sources/wind_bag.html"),
             speed = speed,
-            deg = speed / 2 + 75
+            deg = (speed / 2 - 75)
         ));
         Html::VRef(div.into())
     }
