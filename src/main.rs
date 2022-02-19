@@ -23,7 +23,7 @@ pub struct App {
     wind_angle: i16,
     co2: u16,
     humidity: u8,
-    wind_speed: u8,
+    wind_speed: i16,
 }
 
 #[allow(unused_variables)]
