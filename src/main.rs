@@ -8,6 +8,7 @@ use components::wind_angle::WindAngleComponent;
 use components::settings::SettingsComponent;
 use components::co2::CO2Component;
 use components::humidity::HumidityComponent;
+use components::wind_bag::WindBagComponent;
 
 pub enum Msg {
     Update,
@@ -22,6 +23,7 @@ pub struct App {
     wind_angle: i16,
     co2: u16,
     humidity: u8,
+    wind_speed: u8,
 }
 
 #[allow(unused_variables)]
@@ -37,6 +39,7 @@ impl Component for App {
             wind_angle: 0,
             co2: 800,
             humidity: 50,
+            wind_speed: 0,
         }
     }
 
@@ -55,6 +58,7 @@ impl Component for App {
                 self.wind_angle += 5;
                 self.humidity += 10;
                 self.co2 += 100;
+                self.wind_speed += 10;
                 true
             }
         }
@@ -112,7 +116,7 @@ impl Component for App {
                                 <CO2Component co2level={self.co2} />
                             </div>
                             <div>
-                                { "E" }
+                                <WindBagComponent speed={self.wind_speed}/>
                             </div>
                             <div>
                                 <HumidityComponent humidity={self.humidity} />

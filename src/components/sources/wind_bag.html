@@ -1,0 +1,16 @@
+<svg width="200px" height="200px">
+    <line x1=50 y1=75 x2=50 y2=175 stroke="black" stroke-width="5"/>
+    <g class="bag">
+        <polygon points="50,50 83,53 83,97 50,100" stroke="black" stroke-width=5 fill="red"/>
+        <polygon points="83,53 116,56 116,94 83,97" stroke="black" stroke-width=5 fill="white"/>
+        <polygon points="116,56 150,59 150,91 116,94" stroke="black" stroke-width=5 fill="red"/>
+    </g>
+    <text x=25 y=200 style="font-size: 20px;">{speed} km/h</text>
+</svg>
+
+<style>
+    .bag {{
+        transform-origin: 50px 75px;
+        transform: rotate({deg}deg);
+    }}
+</style>
