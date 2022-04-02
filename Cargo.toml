@@ -10,8 +10,13 @@ yew = "*"
 gloo-utils = "*"
 gloo = "*"
 js-sys = "*"
+serde_json = "*"
 
 
 [dependencies.web-sys]
 version = "0.3"
 features = ["console", "Document", "Element", "Node", "Window"]
+
+[dependencies.reqwasm]
+version = "0.5.0"
+features = ["json"]
