@@ -48,7 +48,7 @@ impl Component for SettingsComponent {
                     { js_sys::Date::new_0().to_locale_date_string("de-DE", &options).to_string() }
                 </p>
                 <button class="button" onclick={ctx.props().settings_callback.clone()}>
-                    { " "}
+                    {" "}
                 </button>
             </>
         }

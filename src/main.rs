@@ -4,6 +4,9 @@ use yew::prelude::*;
 
 mod components;
 
+mod credentials;
+use credentials::*;
+
 use components::temperature::TemperatureComponent;
 use components::wind_angle::WindAngleComponent;
 use components::settings::SettingsComponent;
@@ -11,10 +14,12 @@ use components::co2::CO2Component;
 use components::humidity::HumidityComponent;
 use components::wind_bag::WindBagComponent;
 
+
 pub enum Msg {
     Update,
     Settings,
     Increment,
+    Token(String),
     Value(String),
 }
 
@@ -26,7 +31,9 @@ pub struct App {
     co2: u16,
     humidity: u8,
     wind_speed: i16,
-    interval: Interval
+    interval: Interval,
+    token: String,
+    got_token: bool,
 }
 
 #[allow(unused_variables)]
@@ -39,6 +46,13 @@ impl Component for App {
             let link = ctx.link().clone();
             Interval::new(1000, move || link.send_message(Msg::Update))
         };
+
+        ctx.link().send_future(async {
+            //let response = Request::post(&"https://api.netatmo.com/oauth2/token?grant_type=password&client_id=".to_string() + CLIENT_ID.to + "&client_secret=" + &CLIENT_SECRET + "&username=" + &USERNAME + "&password=" + &PASSWORD).send().await.unwrap();
+            let response = Request::post(&format!("https://api.netatmo.com/oauth2/token?grant_type=password&client_id={}&client_secret={}&username={}&password={}", CLIENT_ID, CLIENT_SECRET, USERNAME, PASSWORD)).send().await.unwrap();
+            let thingy: serde_json::Value = serde_json::from_str(&response.text().await.unwrap()).unwrap();
+            Msg::Token(thingy.pointer("/access_token").unwrap().as_str().unwrap().to_string())
+        });
         Self {
             weather: false,
             settings: false,
@@ -47,16 +61,21 @@ impl Component for App {
             co2: 800,
             humidity: 50,
             wind_speed: 0,
-            interval: data_handle
+            interval: data_handle,
+            token: "".to_string(),
+            got_token: false
         }
     }
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::Update => {
-                ctx.link().send_future(async {
+                if self.got_token {
+                    let token = self.token.clone();
+                
+                    ctx.link().send_future(async move {
                     let response = Request::get("https://api.netatmo.com/api/getstationsdata?get_favorites=false")
-                        .header("Authorization", "Bearer TOKEN")
+                        .header("Authorization", &format!("Bearer {}", token))
                         .header("accept", "application/json")
                         .send()
                         .await
@@ -67,6 +86,7 @@ impl Component for App {
                     
                     Msg::Value(response)
                 });
+                }
                 false
             }
             Msg::Settings => {
@@ -93,6 +113,9 @@ impl Component for App {
                     _ => true,
                 };
                 true
+            },
+            Msg::Token(_) => {
+                false
             },
         }
     }
