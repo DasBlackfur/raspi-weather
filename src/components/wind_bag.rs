@@ -1,17 +1,17 @@
 use gloo_utils::document;
 use web_sys::Element;
-use yew::{Properties, Component, html, Html};
+use yew::{html, Component, Html, Properties};
 
 pub struct WindBagComponent;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
-    pub speed: i16
+    pub speed: i16,
 }
 
 impl Component for WindBagComponent {
     type Message = ();
-    
+
     type Properties = Props;
 
     fn create(ctx: &yew::Context<Self>) -> Self {

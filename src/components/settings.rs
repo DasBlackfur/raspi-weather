@@ -1,5 +1,5 @@
-use yew::{Component, html, Callback, Properties};
 use gloo::timers::callback::Interval;
+use yew::{html, Callback, Component, Properties};
 
 pub struct SettingsComponent {
     interval: Interval,
@@ -11,7 +11,7 @@ pub enum Msg {
 
 #[derive(Clone, Properties, PartialEq)]
 pub struct Props {
-    pub settings_callback: Callback<crate::MouseEvent>
+    pub settings_callback: Callback<crate::MouseEvent>,
 }
 
 impl Component for SettingsComponent {
@@ -41,7 +41,7 @@ impl Component for SettingsComponent {
         js_sys::Reflect::set(&options, &"year".into(), &"numeric".into()).unwrap();
         js_sys::Reflect::set(&options, &"month".into(), &"short".into()).unwrap();
         js_sys::Reflect::set(&options, &"day".into(), &"numeric".into()).unwrap();
-        html!{
+        html! {
             <>
                 <p style="font-size: 70%">
                     { js_sys::Date::new_0().to_locale_time_string("de-DE").to_string() } <br/>

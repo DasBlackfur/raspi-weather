@@ -1,10 +1,10 @@
-use yew::{Component, Properties, html};
+use yew::{html, Component, Properties};
 
 pub struct CO2Component;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
-    pub co2level: u16
+    pub co2level: u16,
 }
 
 impl Component for CO2Component {
@@ -35,7 +35,7 @@ fn get_color_from_level(level: &u16) -> String {
         0..=900 => "green".to_string(),
         901..=1000 => "yellow".to_string(),
         1001..=1100 => "red".to_string(),
-        1101..=u16::MAX => "blue".to_string()
+        1101..=u16::MAX => "blue".to_string(),
     }
 }
 
@@ -44,6 +44,6 @@ fn get_text_from_level(level: &u16) -> String {
         0..=900 => "Low".to_string(),
         901..=1000 => "Medium".to_string(),
         1001..=1100 => "High".to_string(),
-        1101..=u16::MAX => "BROKEN".to_string()
+        1101..=u16::MAX => "BROKEN".to_string(),
     }
 }

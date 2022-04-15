@@ -7,18 +7,18 @@ mod components;
 mod credentials;
 use credentials::*;
 
-use components::temperature::TemperatureComponent;
-use components::wind_angle::WindAngleComponent;
-use components::settings::SettingsComponent;
 use components::co2::CO2Component;
 use components::humidity::HumidityComponent;
+use components::settings::SettingsComponent;
+use components::temperature::TemperatureComponent;
+use components::wind_angle::WindAngleComponent;
 use components::wind_bag::WindBagComponent;
-
 
 pub enum Msg {
     Update,
     Settings,
     Increment,
+    Refresh,
     Token(String),
     Value(String),
 }
@@ -44,14 +44,39 @@ impl Component for App {
     fn create(ctx: &Context<Self>) -> Self {
         let data_handle = {
             let link = ctx.link().clone();
-            Interval::new(1000, move || link.send_message(Msg::Update))
+            Interval::new(5000, move || link.send_message(Msg::Update))
         };
 
         ctx.link().send_future(async {
             //let response = Request::post(&"https://api.netatmo.com/oauth2/token?grant_type=password&client_id=".to_string() + CLIENT_ID.to + "&client_secret=" + &CLIENT_SECRET + "&username=" + &USERNAME + "&password=" + &PASSWORD).send().await.unwrap();
-            let response = Request::post(&format!("https://api.netatmo.com/oauth2/token?grant_type=password&client_id={}&client_secret={}&username={}&password={}", CLIENT_ID, CLIENT_SECRET, USERNAME, PASSWORD)).send().await.unwrap();
-            let thingy: serde_json::Value = serde_json::from_str(&response.text().await.unwrap()).unwrap();
-            Msg::Token(thingy.pointer("/access_token").unwrap().as_str().unwrap().to_string())
+            let response = Request::post("https://api.netatmo.com/oauth2/token")
+                .header(
+                    "Content-Type",
+                    "application/x-www-form-urlencoded;charset=UTF-8",
+                )
+                .body(
+                    "grant_type=password&client_id=".to_string()
+                        + CLIENT_ID
+                        + "&client_secret="
+                        + CLIENT_SECRET
+                        + "&username="
+                        + USERNAME
+                        + "&password="
+                        + PASSWORD,
+                )
+                .send()
+                .await
+                .unwrap();
+            let thingy: serde_json::Value =
+                serde_json::from_str(&response.text().await.unwrap()).unwrap();
+            Msg::Token(
+                thingy
+                    .pointer("/access_token")
+                    .unwrap()
+                    .as_str()
+                    .unwrap()
+                    .to_string(),
+            )
         });
         Self {
             weather: false,
@@ -63,7 +88,7 @@ impl Component for App {
             wind_speed: 0,
             interval: data_handle,
             token: "".to_string(),
-            got_token: false
+            got_token: false,
         }
     }
 
@@ -72,20 +97,23 @@ impl Component for App {
             Msg::Update => {
                 if self.got_token {
                     let token = self.token.clone();
-                
+
                     ctx.link().send_future(async move {
-                    let response = Request::get("https://api.netatmo.com/api/getstationsdata?get_favorites=false")
+                        let response = Request::get(
+                            "https://api.netatmo.com/api/getstationsdata?get_favorites=false",
+                        )
                         .header("Authorization", &format!("Bearer {}", token))
                         .header("accept", "application/json")
                         .send()
                         .await
-                        .unwrap()
-                        .text()
-                        .await
                         .unwrap();
-                    
-                    Msg::Value(response)
-                });
+
+                        if response.status() != 200 {
+                            return Msg::Refresh;
+                        }
+
+                        Msg::Value(response.text().await.unwrap())
+                    });
                 }
                 false
             }
@@ -103,20 +131,82 @@ impl Component for App {
             }
             Msg::Value(val) => {
                 let thingy: serde_json::Value = serde_json::from_str(&val).unwrap();
-                self.temperature = thingy.pointer("/body/devices/0/dashboard_data/Temperature").unwrap().as_f64().unwrap() as f32;
-                self.humidity = thingy.pointer("/body/devices/0/dashboard_data/Humidity").unwrap().as_u64().unwrap() as u8;
-                self.co2 = thingy.pointer("/body/devices/0/dashboard_data/CO2").unwrap().as_u64().unwrap() as u16;
-                self.wind_angle = thingy.pointer("/body/devices/0/modules/2/dashboard_data/WindAngle").unwrap().as_i64().unwrap() as i16;
-                self.wind_speed = thingy.pointer("/body/devices/0/modules/2/dashboard_data/WindStrength").unwrap().as_i64().unwrap() as i16;
-                self.weather = match thingy.pointer("/body/devices/0/modules/1/dashboard_data/Rain").unwrap().as_i64().unwrap() {
+                self.temperature = thingy
+                    .pointer("/body/devices/0/dashboard_data/Temperature")
+                    .unwrap()
+                    .as_f64()
+                    .unwrap() as f32;
+                self.humidity = thingy
+                    .pointer("/body/devices/0/dashboard_data/Humidity")
+                    .unwrap()
+                    .as_u64()
+                    .unwrap() as u8;
+                self.co2 = thingy
+                    .pointer("/body/devices/0/dashboard_data/CO2")
+                    .unwrap()
+                    .as_u64()
+                    .unwrap() as u16;
+                self.wind_angle = thingy
+                    .pointer("/body/devices/0/modules/2/dashboard_data/WindAngle")
+                    .unwrap()
+                    .as_i64()
+                    .unwrap() as i16;
+                self.wind_speed = thingy
+                    .pointer("/body/devices/0/modules/2/dashboard_data/WindStrength")
+                    .unwrap()
+                    .as_i64()
+                    .unwrap() as i16;
+                self.weather = match thingy
+                    .pointer("/body/devices/0/modules/1/dashboard_data/Rain")
+                    .unwrap()
+                    .as_i64()
+                    .unwrap()
+                {
                     0 => false,
                     _ => true,
                 };
                 true
-            },
-            Msg::Token(_) => {
+            }
+            Msg::Token(token) => {
+                self.token = token;
+                self.got_token = true;
+                true
+            }
+            Msg::Refresh => {
+                self.got_token = false;
+                ctx.link().send_future(async {
+                    //let response = Request::post(&"https://api.netatmo.com/oauth2/token?grant_type=password&client_id=".to_string() + CLIENT_ID.to + "&client_secret=" + &CLIENT_SECRET + "&username=" + &USERNAME + "&password=" + &PASSWORD).send().await.unwrap();
+                    let response = Request::post("https://api.netatmo.com/oauth2/token")
+                        .header(
+                            "Content-Type",
+                            "application/x-www-form-urlencoded;charset=UTF-8",
+                        )
+                        .body(
+                            "grant_type=password&client_id=".to_string()
+                                + CLIENT_ID
+                                + "&client_secret="
+                                + CLIENT_SECRET
+                                + "&username="
+                                + USERNAME
+                                + "&password="
+                                + PASSWORD,
+                        )
+                        .send()
+                        .await
+                        .unwrap();
+                    let thingy: serde_json::Value =
+                        serde_json::from_str(&response.text().await.unwrap()).unwrap();
+                    Msg::Token(
+                        thingy
+                            .pointer("/access_token")
+                            .unwrap()
+                            .as_str()
+                            .unwrap()
+                            .to_string(),
+                    )
+                });
                 false
-            },
+            }
         }
     }
 

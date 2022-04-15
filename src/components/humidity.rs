@@ -1,10 +1,10 @@
-use yew::{Component, Properties, html};
+use yew::{html, Component, Properties};
 
 pub struct HumidityComponent;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
-    pub humidity: u8
+    pub humidity: u8,
 }
 
 impl Component for HumidityComponent {
@@ -36,7 +36,7 @@ fn get_color_from_percent(percent: &u8) -> String {
         81..=90 => "yellow".to_string(),
         61..=80 => "red".to_string(),
         0..=60 => "blue".to_string(),
-        101..=u8::MAX => "blue".to_string()
+        101..=u8::MAX => "blue".to_string(),
     }
 }
 
@@ -46,6 +46,6 @@ fn get_text_from_percent(percent: &u8) -> String {
         81..=90 => "Medium".to_string(),
         61..=80 => "Low".to_string(),
         0..=60 => "BROKEN".to_string(),
-        101..=u8::MAX => "BROKEN".to_string()
+        101..=u8::MAX => "BROKEN".to_string(),
     }
 }
