@@ -236,8 +236,8 @@ impl Component for App {
                             { "body {" }
                             { "background-image: url(" }
                             { match self.weather {
-                                false => "sunny.jpg",
-                                true => "thunder.jpg",
+                                false => "bg_sunny.jpg",
+                                true => "bg_thunder.jpg",
                             } }
                             { ");" }
                             { "}" }
@@ -284,8 +284,8 @@ impl Component for App {
                             { "body {"}
                             { "background-image: url(" }
                             { match self.weather {
-                                false => "sunny.jpg",
-                                true => "thunder.jpg",
+                                false => "bg_sunny.jpg",
+                                true => "bg_thunder.jpg",
                             } }
                             { ");" }
                             { "margin: 0;"}
