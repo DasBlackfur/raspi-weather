@@ -44,7 +44,7 @@ impl Component for App {
     fn create(ctx: &Context<Self>) -> Self {
         let data_handle = {
             let link = ctx.link().clone();
-            Interval::new(5000, move || link.send_message(Msg::Update))
+            Interval::new(60000, move || link.send_message(Msg::Update))
         };
 
         ctx.link().send_future(async {
