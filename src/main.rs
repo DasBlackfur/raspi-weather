@@ -170,6 +170,7 @@ impl Component for App {
             Msg::Token(token) => {
                 self.token = token;
                 self.got_token = true;
+                ctx.link().send_message(Msg::Update);
                 true
             }
             Msg::Refresh => {
