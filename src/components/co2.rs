@@ -24,7 +24,7 @@ impl Component for CO2Component {
                 <text x="40" y="73" style="font-size: 50px;">{ "!" }</text>
                 <text x="80" y="40" style="font-size: 25px;">{get_text_from_level(&level)}</text>
                 <text x="80" y="70" style="font-size: 25px;">{ "CO2" }</text>
-                <text x="0" y="130" style="font-size: 38px;">{ format!("{} ppo", &level) }</text>
+                <text x="0" y="130" style="font-size: 38px;">{ format!("{} ppm", &level) }</text>
             </svg>
         )
     }
@@ -32,10 +32,11 @@ impl Component for CO2Component {
 
 fn get_color_from_level(level: &u16) -> String {
     match level {
-        0..=900 => "green".to_string(),
-        901..=1000 => "yellow".to_string(),
-        1001..=1100 => "red".to_string(),
-        1101..=u16::MAX => "blue".to_string(),
+        0..=600 => "green".to_string(),
+        601..=900 => "GreenYellow".to_string(),
+        901..=1200 => "yellow".to_string(),
+        1201..=1500 => "orange".to_string(),
+        1501..=u16::MAX => "red".to_string(),
     }
 }
 

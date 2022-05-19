@@ -11,6 +11,7 @@ use components::co2::CO2Component;
 use components::humidity::HumidityComponent;
 use components::settings::SettingsComponent;
 use components::temperature::TemperatureComponent;
+use components::temperature_out::TemperatureComponentOut;
 use components::wind_angle::WindAngleComponent;
 use components::wind_bag::WindBagComponent;
 
@@ -25,6 +26,7 @@ pub enum Msg {
 
 pub struct App {
     temperature: f32,
+    temperature_out: f32,
     weather: bool,
     settings: bool,
     wind_angle: i16,
@@ -83,12 +85,13 @@ impl Component for App {
             settings: false,
             temperature: 0.0,
             wind_angle: 0,
-            co2: 800,
-            humidity: 50,
+            co2: 0,
+            humidity: 0,
             wind_speed: 0,
             interval: data_handle,
             token: "".to_string(),
             got_token: false,
+            temperature_out: 0.0,
         }
     }
 
@@ -165,6 +168,11 @@ impl Component for App {
                     0 => false,
                     _ => true,
                 };
+                self.temperature_out = thingy
+                    .pointer("/body/devices/0/modules/0/dashboard_data/Temperature")
+                    .unwrap()
+                    .as_f64()
+                    .unwrap() as f32;
                 true
             }
             Msg::Token(token) => {
@@ -257,7 +265,7 @@ impl Component for App {
                                 <TemperatureComponent temperature={self.temperature}/>
                             </div>
                             <div>
-                                { "C" }
+                                <TemperatureComponentOut temperature={self.temperature_out}/>
                             </div>
                             <div>
                                 <CO2Component co2level={self.co2} />
