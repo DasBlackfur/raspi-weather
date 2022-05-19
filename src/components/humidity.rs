@@ -24,7 +24,7 @@ impl Component for HumidityComponent {
                 <text x="40" y="73" style="font-size: 50px;">{ "!" }</text>
                 <text x="80" y="40" style="font-size: 25px;">{get_text_from_percent(&percent)}</text>
                 <text x="80" y="70" style="font-size: 20px;">{ "Feuchtigkeit" }</text>
-                <text x="0" y="130" style="font-size: 38px;">{ format!("{} %", &percent) }</text>
+                <text x="50" y="150" style="font-size: 60px;">{ format!("{} %", &percent) }</text>
             </svg>
         )
     }
