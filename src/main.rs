@@ -276,10 +276,7 @@ impl Component for App {
                             <div>
                                 <HumidityComponent humidity={self.humidity} />
                             </div>
-                            <div>
-                                { "G" }
-                            </div>
-                            <div>
+                            <div class="long-grid">
                                 <SettingsComponent settings_callback={ctx.link().callback(|_| Msg::Settings)}/>
                             </div>
                         </div>
@@ -289,6 +286,9 @@ impl Component for App {
                             { "grid-template-columns: repeat(4, 1fr);" }
                             { "grid-template-rows: repeat(2, 1fr);" }
                             { "height: 100vh;" }
+                            { "}" }
+                            { ".long-grid {" }
+                            { "grid-area: 2 / 3 / 2 / 4;" }
                             { "}" }
                             { "body {"}
                             { "background-image: url(" }
