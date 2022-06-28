@@ -33,9 +33,9 @@ impl Component for HumidityComponent {
 fn get_color_from_percent(percent: &u8) -> String {
     match percent {
         71..=100 => "red".to_string(),
-        51..=70 => "yellow".to_string(),
-        31..=50 => "green".to_string(),
-        21..=30 => "yellow".to_string(),
+        61..=70 => "yellow".to_string(),
+        41..=60 => "green".to_string(),
+        21..=40 => "yellow".to_string(),
         11..=20 => "red".to_string(),
         0..=10 => "blue".to_string(),
         101..=u8::MAX => "blue".to_string(),
@@ -44,10 +44,10 @@ fn get_color_from_percent(percent: &u8) -> String {
 
 fn get_text_from_percent(percent: &u8) -> String {
     match percent {
-        91..=100 => "Hohe".to_string(),
-        81..=90 => "Mittlere".to_string(),
-        61..=80 => "Niedrige".to_string(),
-        0..=60 => "BROKEN".to_string(),
+        61..=100 => "Hohe".to_string(),
+        41..=60 => "Mittlere".to_string(),
+        11..=40 => "Niedrige".to_string(),
+        0..=10 => "BROKEN".to_string(),
         101..=u8::MAX => "BROKEN".to_string(),
     }
 }
