@@ -274,7 +274,7 @@ impl Component for App {
                                 <WindBagComponent speed={self.wind_speed}/>
                             </div>
                             <div>
-                                { "Regen-Platzhalter" }
+                                { "R" }
                             </div>
                             <div>
                                 <HumidityComponent humidity={self.humidity} />
