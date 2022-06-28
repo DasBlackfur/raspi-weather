@@ -43,7 +43,7 @@ impl Component for SettingsComponent {
         js_sys::Reflect::set(&options, &"day".into(), &"numeric".into()).unwrap();
         html! {
             <>
-                <p style="font-size: 70%; padding-left: 50px; padding-top: 15px;">
+                <p style="font-size: 70%; padding-left: 50px;">
                     { js_sys::Date::new_0().to_locale_time_string("de-DE").to_string() } <br/>
                     { js_sys::Date::new_0().to_locale_date_string("de-DE", &options).to_string() }
                 </p>
