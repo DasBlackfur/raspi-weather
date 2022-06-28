@@ -262,10 +262,10 @@ impl Component for App {
                                 <WindAngleComponent wind_angle={self.wind_angle} />
                             </div>
                             <div>
-                                <TemperatureComponent temperature={self.temperature}/>
+                                <TemperatureComponentOut temperature={self.temperature_out}/>
                             </div>
                             <div>
-                                <TemperatureComponentOut temperature={self.temperature_out}/>
+                                <TemperatureComponent temperature={self.temperature}/>
                             </div>
                             <div>
                                 <CO2Component co2level={self.co2} />
@@ -274,9 +274,12 @@ impl Component for App {
                                 <WindBagComponent speed={self.wind_speed}/>
                             </div>
                             <div>
+                                { "Regen-Platzhalter" }
+                            </div>
+                            <div>
                                 <HumidityComponent humidity={self.humidity} />
                             </div>
-                            <div class="long-grid">
+                            <div>
                                 <SettingsComponent settings_callback={ctx.link().callback(|_| Msg::Settings)}/>
                             </div>
                         </div>
