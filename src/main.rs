@@ -274,7 +274,6 @@ impl Component for App {
                                 <WindBagComponent speed={self.wind_speed}/>
                             </div>
                             <div>
-                                { "R" }
                             </div>
                             <div>
                                 <HumidityComponent humidity={self.humidity} />
@@ -289,9 +288,6 @@ impl Component for App {
                             { "grid-template-columns: repeat(4, 1fr);" }
                             { "grid-template-rows: repeat(2, 1fr);" }
                             { "height: 100vh;" }
-                            { "}" }
-                            { ".long-grid {" }
-                            { "grid-area: 2 / 3 / 2 / 4;" }
                             { "}" }
                             { "body {"}
                             { "background-image: url(" }
