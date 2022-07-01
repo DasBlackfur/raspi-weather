@@ -150,7 +150,7 @@ impl Component for App {
                 self.co2 = thingy
                     .pointer("/body/devices/0/dashboard_data/CO2")
                     .unwrap()
-                    .as_u64()
+                    .as_i64()
                     .unwrap() as u16;
                 self.wind_angle = thingy
                     .pointer("/body/devices/0/modules/2/dashboard_data/WindAngle")
