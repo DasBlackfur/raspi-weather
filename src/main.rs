@@ -14,6 +14,7 @@ use components::temperature::TemperatureComponent;
 use components::temperature_out::TemperatureComponentOut;
 use components::wind_angle::WindAngleComponent;
 use components::wind_bag::WindBagComponent;
+use components::rain::RainComponent;
 
 pub enum Msg {
     Update,
@@ -33,6 +34,7 @@ pub struct App {
     co2: u16,
     humidity: u8,
     wind_speed: i16,
+    rain: u32,
     interval: Interval,
     token: String,
     got_token: bool,
@@ -92,6 +94,7 @@ impl Component for App {
             token: "".to_string(),
             got_token: false,
             temperature_out: 0.0,
+            rain: 0,
         }
     }
 
@@ -168,6 +171,11 @@ impl Component for App {
                     0 => false,
                     _ => true,
                 };
+                self.rain = thingy
+                    .pointer("/body/devices/0/modules/1/dashboard_data/Rain")
+                    .unwrap()
+                    .as_i64()
+                    .unwrap() as u32;
                 self.temperature_out = thingy
                     .pointer("/body/devices/0/modules/0/dashboard_data/Temperature")
                     .unwrap()
@@ -274,6 +282,7 @@ impl Component for App {
                                 <WindBagComponent speed={self.wind_speed}/>
                             </div>
                             <div>
+                                <RainComponent rain_level={self.rain}/>
                             </div>
                             <div>
                                 <HumidityComponent humidity={self.humidity} />
