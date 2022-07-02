@@ -1,5 +1,6 @@
 use gloo::timers::callback::Interval;
 use reqwasm::http::Request;
+use serde_json::Value;
 use yew::prelude::*;
 
 mod components;
@@ -139,32 +140,32 @@ impl Component for App {
                 let thingy: serde_json::Value = serde_json::from_str(&val).unwrap();
                 self.temperature = thingy
                     .pointer("/body/devices/0/dashboard_data/Temperature")
-                    .unwrap()
+                    .unwrap_or(&Value::from(0.0))
                     .as_f64()
                     .unwrap() as f32;
                 self.humidity = thingy
                     .pointer("/body/devices/0/dashboard_data/Humidity")
-                    .unwrap()
+                    .unwrap_or(&Value::from(0))
                     .as_u64()
                     .unwrap() as u8;
                 self.co2 = thingy
                     .pointer("/body/devices/0/dashboard_data/CO2")
-                    .unwrap()
+                    .unwrap_or(&Value::from(0))
                     .as_i64()
                     .unwrap() as u16;
                 self.wind_angle = thingy
                     .pointer("/body/devices/0/modules/2/dashboard_data/WindAngle")
-                    .unwrap()
+                    .unwrap_or(&Value::from(0))
                     .as_i64()
                     .unwrap() as i16;
                 self.wind_speed = thingy
                     .pointer("/body/devices/0/modules/2/dashboard_data/WindStrength")
-                    .unwrap()
+                    .unwrap_or(&Value::from(0))
                     .as_i64()
                     .unwrap() as i16;
                 self.weather = match thingy
                     .pointer("/body/devices/0/modules/1/dashboard_data/Rain")
-                    .unwrap()
+                    .unwrap_or(&Value::from(0))
                     .as_i64()
                     .unwrap()
                 {
@@ -173,12 +174,12 @@ impl Component for App {
                 };
                 self.rain = thingy
                     .pointer("/body/devices/0/modules/1/dashboard_data/Rain")
-                    .unwrap()
+                    .unwrap_or(&Value::from(0))
                     .as_i64()
                     .unwrap() as u32;
                 self.temperature_out = thingy
                     .pointer("/body/devices/0/modules/0/dashboard_data/Temperature")
-                    .unwrap()
+                    .unwrap_or(&Value::from(0.0))
                     .as_f64()
                     .unwrap() as f32;
                 true
