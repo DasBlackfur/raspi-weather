@@ -95,7 +95,7 @@ impl Component for App {
             token: "".to_string(),
             got_token: false,
             temperature_out: 0.0,
-            rain: 0,
+            rain: 0.0,
         }
     }
 
