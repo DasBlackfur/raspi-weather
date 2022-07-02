@@ -164,7 +164,7 @@ impl Component for App {
                     .as_i64()
                     .unwrap() as i16;
                 self.weather = match thingy
-                    .pointer("/body/devices/0/modules/1/dashboard_data/Rain")
+                    .pointer("/body/devices/0/modules/1/dashboard_data/sum_rain_24")
                     .unwrap_or(&Value::from(0))
                     .as_f64()
                     .unwrap()
@@ -173,7 +173,7 @@ impl Component for App {
                     _ => true,
                 };
                 self.rain = thingy
-                    .pointer("/body/devices/0/modules/1/dashboard_data/Rain")
+                    .pointer("/body/devices/0/modules/1/dashboard_data/sum_rain_24")
                     .unwrap_or(&Value::from(0.0))
                     .as_f64()
                     .unwrap() as f32;
