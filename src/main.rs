@@ -35,7 +35,7 @@ pub struct App {
     co2: u16,
     humidity: u8,
     wind_speed: i16,
-    rain: u32,
+    rain: f32,
     interval: Interval,
     token: String,
     got_token: bool,
@@ -166,17 +166,17 @@ impl Component for App {
                 self.weather = match thingy
                     .pointer("/body/devices/0/modules/1/dashboard_data/Rain")
                     .unwrap_or(&Value::from(0))
-                    .as_i64()
+                    .as_f64()
                     .unwrap()
                 {
-                    0 => false,
+                    0.0 => false,
                     _ => true,
                 };
                 self.rain = thingy
                     .pointer("/body/devices/0/modules/1/dashboard_data/Rain")
-                    .unwrap_or(&Value::from(0))
-                    .as_i64()
-                    .unwrap() as u32;
+                    .unwrap_or(&Value::from(0.0))
+                    .as_f64()
+                    .unwrap() as f32;
                 self.temperature_out = thingy
                     .pointer("/body/devices/0/modules/0/dashboard_data/Temperature")
                     .unwrap_or(&Value::from(0.0))

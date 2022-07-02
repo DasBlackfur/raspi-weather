@@ -6,7 +6,7 @@ pub struct RainComponent;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
-    pub rain_level: u32,
+    pub rain_level: f32,
 }
 
 impl Component for RainComponent {
@@ -30,8 +30,8 @@ impl Component for RainComponent {
     }
 }
 
-fn get_percent_from_level(level: u32) -> u8 {
-    let percent = level as f64 * 5.0;
+fn get_percent_from_level(level: f32) -> u8 {
+    let percent = level * 5.0;
     match percent {
         percent if percent > 90.0 => 90,
         percent if percent < 0.0 => 0,
