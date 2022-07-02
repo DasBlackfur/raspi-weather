@@ -163,13 +163,13 @@ impl Component for App {
                     .unwrap_or(&Value::from(0))
                     .as_i64()
                     .unwrap() as i16;
-                self.weather = match thingy
-                    .pointer("/body/devices/0/modules/1/dashboard_data/sum_rain_24")
+                self.weather = match (thingy
+                    .pointer("/body/devices/0/modules/1/dashboard_data/sum_rain_1")
                     .unwrap_or(&Value::from(0))
                     .as_f64()
-                    .unwrap()
+                    .unwrap() * 10.0) as u32
                 {
-                    0.0 => false,
+                    0 => false,
                     _ => true,
                 };
                 self.rain = thingy
