@@ -22,9 +22,8 @@ impl Component for HumidityComponent {
             <svg width="200px" height="200px">
                 <polygon points="20,80 80,80, 50,20" stroke="black" stroke-width="5" fill={get_color_from_percent(&percent)}/>
                 <text x="40" y="73" style="font-size: 50px;">{ "!" }</text>
-                <text x="80" y="40" style="font-size: 25px;">{get_text_from_percent(&percent)}</text>
-                <text x="80" y="70" style="font-size: 20px;">{ "Feuchtigkeit" }</text>
-                <text x="50" y="150" style="font-size: 60px;">{ format!("{} %", &percent) }</text>
+                <text x="90" y="60" style="font-size: 30px;">{ "Feuchte" }</text>
+                <text x="60" y="130" style="font-size: 35px;">{ format!("{} %", &percent) }</text>
             </svg>
         )
     }

@@ -23,7 +23,7 @@ impl Component for WindAngleComponent {
         let wind_angle = ctx.props().wind_angle;
         div.set_inner_html(&format!(
             include_str!("sources/wind_angle.html"),
-            deg = wind_angle
+            deg = wind_angle - 180
         ));
         Html::VRef(div.into())
     }
