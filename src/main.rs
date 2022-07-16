@@ -170,7 +170,7 @@ impl Component for App {
                     .unwrap() * 10.0) as u32
                 {
                     0 => false,
-                    _ => true,
+                    _ => false,
                 };
                 self.rain = thingy
                     .pointer("/body/devices/0/modules/1/dashboard_data/sum_rain_24")
