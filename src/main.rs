@@ -39,6 +39,7 @@ pub struct App {
     interval: Interval,
     token: String,
     got_token: bool,
+    timestamp: u64,
 }
 
 #[allow(unused_variables)]
@@ -96,6 +97,7 @@ impl Component for App {
             got_token: false,
             temperature_out: 0.0,
             rain: 0.0,
+            timestamp: 0,
         }
     }
 
@@ -182,6 +184,11 @@ impl Component for App {
                     .unwrap_or(&Value::from(0.0))
                     .as_f64()
                     .unwrap() as f32;
+                self.timestamp = thingy
+                    .pointer("/body/devices/0/dashboard_data/time_utc")
+                    .unwrap_or(&Value::from(0))
+                    .as_u64()
+                    .unwrap();
                 true
             }
             Msg::Token(token) => {
@@ -289,7 +296,7 @@ impl Component for App {
                                 <HumidityComponent humidity={self.humidity} />
                             </div>
                             <div>
-                                <SettingsComponent settings_callback={ctx.link().callback(|_| Msg::Settings)}/>
+                                <SettingsComponent settings_callback={ctx.link().callback(|_| Msg::Settings)} timestamp={self.timestamp}/>
                             </div>
                         </div>
                         <style>
