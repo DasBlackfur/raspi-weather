@@ -48,7 +48,6 @@ impl Component for SettingsComponent {
                 <p style="font-size: 80%; padding-left: 10px;">
                     { js_sys::Date::new_0().to_locale_time_string("de-DE").to_string() } <br/>
                     { js_sys::Date::new_0().to_locale_date_string("de-DE", &options).to_string() } <br/>
-                    { js_sys::Date::new(&JsValue::from_str(&ctx.props().timestamp.to_string())).to_locale_time_string("de-DE").to_string() }
                 </p>
                 <button class="button" onClick="window.location.reload();">
                     {"⟳"}
