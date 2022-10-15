@@ -39,7 +39,7 @@ pub struct App {
     interval: Interval,
     token: String,
     got_token: bool,
-    timestamp: u64,
+    timestamp: f64,
 }
 
 #[allow(unused_variables)]
@@ -97,7 +97,7 @@ impl Component for App {
             got_token: false,
             temperature_out: 0.0,
             rain: 0.0,
-            timestamp: 0,
+            timestamp: 0.0,
         }
     }
 
@@ -187,7 +187,7 @@ impl Component for App {
                 self.timestamp = thingy
                     .pointer("/body/devices/0/dashboard_data/time_utc")
                     .unwrap_or(&Value::from(0))
-                    .as_u64()
+                    .as_f64()
                     .unwrap();
                 true
             }

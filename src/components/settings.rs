@@ -14,7 +14,7 @@ pub enum Msg {
 #[derive(Clone, Properties, PartialEq)]
 pub struct Props {
     pub settings_callback: Callback<crate::MouseEvent>,
-    pub timestamp: u64,
+    pub timestamp: f64,
 }
 
 impl Component for SettingsComponent {
@@ -40,7 +40,6 @@ impl Component for SettingsComponent {
 
     fn view(&self, ctx: &yew::Context<Self>) -> yew::Html {
         let options = js_sys::Object::new();
-        js_sys::Reflect::set(&options, &"weekday".into(), &"short".into()).unwrap();
         js_sys::Reflect::set(&options, &"year".into(), &"numeric".into()).unwrap();
         js_sys::Reflect::set(&options, &"month".into(), &"numeric".into()).unwrap();
         js_sys::Reflect::set(&options, &"day".into(), &"numeric".into()).unwrap();
@@ -52,7 +51,7 @@ impl Component for SettingsComponent {
                     { js_sys::Date::new(&JsValue::from_str(&ctx.props().timestamp.to_string())).to_locale_time_string("de-DE").to_string() }
                 </p>
                 <button class="button" onClick="window.location.reload();">
-                    {"⟳" }
+                    {"⟳"}
                 </button>
             </>
         }
