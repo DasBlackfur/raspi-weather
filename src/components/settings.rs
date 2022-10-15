@@ -40,12 +40,12 @@ impl Component for SettingsComponent {
 
     fn view(&self, ctx: &yew::Context<Self>) -> yew::Html {
         let options = js_sys::Object::new();
-        js_sys::Reflect::set(&options, &"year".into(), &"short".into()).unwrap();
+        js_sys::Reflect::set(&options, &"year".into(), &"numeric".into()).unwrap();
         js_sys::Reflect::set(&options, &"month".into(), &"numeric".into()).unwrap();
         js_sys::Reflect::set(&options, &"day".into(), &"numeric".into()).unwrap();
         html! {
             <>
-                <p style="font-size: 80%; padding-left: 10px;">
+                <p style="font-size: 70%; padding-left: 10px;">
                     { js_sys::Date::new_0().to_locale_time_string("de-DE").to_string() } <br/>
                     { js_sys::Date::new_0().to_locale_date_string("de-DE", &options).to_string() } <br/>
                 </p>
