@@ -1,4 +1,4 @@
-use gloo::{timers::callback::Interval, console::__macro::JsValue};
+use gloo::{timers::callback::Interval, console::{__macro::JsValue, log, externs::log}};
 use yew::{html, Callback, Component, Properties};
 
 pub struct SettingsComponent {
@@ -45,11 +45,15 @@ impl Component for SettingsComponent {
         js_sys::Reflect::set(&options, &"day".into(), &"numeric".into()).unwrap();
         html! {
             <>
-                <p style="font-size: 70%; padding-left: 10px;">
-                    { js_sys::Date::new_0().to_locale_time_string("de-DE").to_string() } <br/>
-                    { js_sys::Date::new_0().to_locale_date_string("de-DE", &options).to_string() } <br/>
+                <p style="font-size: 60%; padding-left: 10px; margin-bottom:8px">
+                    { js_sys::Date::new_0().to_locale_time_string("de-DE") } <br/>
+                    { js_sys::Date::new_0().to_locale_date_string("de-DE", &options) } <br/>
                 </p>
-                <button class="button" onClick="window.location.reload();">
+                <p style="font-size: 30%; padding-left:10px; margin-bottom:0px">
+                    { "Letzte Aktualisierung:" } <br/>
+                    {js_sys::Date::new(&JsValue::from_f64(ctx.props().timestamp * 1000.0)).to_locale_time_string("de-DE") }
+                </p>
+                <button class="button" onClick="window.location.reload();" style="padding-top:0px">
                     {"⟳"}
                 </button>
             </>
