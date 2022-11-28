@@ -161,7 +161,7 @@ impl Component for App {
                     .as_i64()
                     .unwrap() as i16;
                 self.wind_speed = thingy
-                    .pointer("/body/devices/0/modules/2/dashboard_data/max_wind_str")
+                    .pointer("/body/devices/0/modules/2/dashboard_data/GustStrength")
                     .unwrap_or(&Value::from(0))
                     .as_i64()
                     .unwrap() as i16;
