@@ -1,6 +1,19 @@
+use csv::Reader;
+use gloo::{timers::callback::Interval, console::externs::log};
+use reqwasm::http::Request;
 use yew::{html, Component, Properties};
 
-pub struct CO2Component;
+use crate::credentials::{INFLUX_TOKEN, INFLUX_ORG};
+
+pub struct CO2Component {
+    interval: Interval,
+    watt: u16
+}
+
+pub enum Msg {
+    Update,
+    Value(String)
+}
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
@@ -8,12 +21,50 @@ pub struct Props {
 }
 
 impl Component for CO2Component {
-    type Message = ();
+    type Message = Msg;
 
     type Properties = Props;
 
     fn create(ctx: &yew::Context<Self>) -> Self {
-        Self
+        let clock_hanlde = {
+            let link = ctx.link().clone();
+            Interval::new(10000, move || link.send_message(Msg::Update))
+        };
+        ctx.link().send_message(Msg::Update);
+        Self {
+            interval: clock_hanlde,
+            watt: 1,
+        }
+    }
+
+    fn update(&mut self, ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
+        match msg {
+            Msg::Update => {
+                ctx.link().send_future(async move {
+                    let response = Request::post(
+                        &format!("http://192.168.12.100:8086/api/v2/query?org={}", INFLUX_ORG),
+                    )
+                    .header("Authorization", &format!("Token {}", INFLUX_TOKEN))
+                    .header("accept", "application/csv")
+                    .header("Content-type", "application/vnd.flux")
+                    .body("from(bucket: \"mathome-sensors\")
+                    |> range(start: -1m)
+                    |> filter(fn: (r) => r[\"_measurement\"] == \"shellies\")
+                    |> filter(fn: (r) => r[\"_field\"] == \"apower\")
+                    |> last()")
+                    .send()
+                    .await
+                    .unwrap();
+
+                    Msg::Value(response.text().await.unwrap())
+                });
+                false
+            },
+            Msg::Value(str) => {
+                self.watt = Reader::from_reader(str.as_bytes()).records().next().unwrap().unwrap()[6].parse().unwrap();
+                true
+            },
+        }
     }
 
     fn view(&self, ctx: &yew::Context<Self>) -> yew::Html {
@@ -24,6 +75,7 @@ impl Component for CO2Component {
                 <text x="40" y="73" style="font-size: 50px;">{ "!" }</text>
                 <text x="85" y="60" style="font-size: 30px;">{ "CO2" }</text>
                 <text x="0" y="130" style="font-size: 38px;">{ format!("{} ppm", &level) }</text>
+                <text x="0" y="180" style="font-sime: 38px;">{ format!("{} W", &self.watt)}</text>
             </svg>
         )
     }

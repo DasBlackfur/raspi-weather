@@ -284,7 +284,7 @@ impl Component for App {
                                 <TemperatureComponent temperature={self.temperature}/>
                             </div>
                             <div>
-                                <CO2Component co2level={self.co2} />
+                                <CO2Component co2level={self.co2}/>
                             </div>
                             <div>
                                 <WindBagComponent speed={self.wind_speed}/>
