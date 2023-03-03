@@ -61,7 +61,7 @@ impl Component for CO2Component {
                 false
             },
             Msg::Value(str) => {
-                self.watt = Reader::from_reader(str.as_bytes()).records().next().unwrap().unwrap()[6].parse().unwrap();
+                self.watt = Reader::from_reader(str.as_bytes()).records().next().unwrap().unwrap()[6].parse().unwrap_or(1);
                 true
             },
         }
