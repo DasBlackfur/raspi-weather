@@ -1,5 +1,5 @@
 use csv::Reader;
-use gloo::{timers::callback::Interval, console::externs::log};
+use gloo::{timers::callback::Interval, console::{externs::log, console}};
 use reqwasm::http::Request;
 use yew::{html, Component, Properties};
 
@@ -7,7 +7,7 @@ use crate::credentials::{INFLUX_TOKEN, INFLUX_ORG};
 
 pub struct CO2Component {
     interval: Interval,
-    watt: u16
+    watt: f32
 }
 
 pub enum Msg {
@@ -33,7 +33,7 @@ impl Component for CO2Component {
         ctx.link().send_message(Msg::Update);
         Self {
             interval: clock_hanlde,
-            watt: 1,
+            watt: 1.0,
         }
     }
 
@@ -61,7 +61,7 @@ impl Component for CO2Component {
                 false
             },
             Msg::Value(str) => {
-                self.watt = Reader::from_reader(str.as_bytes()).records().next().unwrap().unwrap()[6].parse().unwrap_or(1);
+                self.watt = Reader::from_reader(str.as_bytes()).records().next().unwrap().unwrap()[6].parse().unwrap_or(1.0);
                 true
             },
         }
