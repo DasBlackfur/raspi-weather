@@ -48,7 +48,7 @@ impl Component for CO2Component {
                     .header("accept", "application/csv")
                     .header("Content-type", "application/vnd.flux")
                     .body("from(bucket: \"mathome-sensors\")
-                    |> range(start: -1m)
+                    |> range(start: -1d)
                     |> filter(fn: (r) => r[\"_measurement\"] == \"shellies\")
                     |> filter(fn: (r) => r[\"_field\"] == \"apower\")
                     |> last()")
