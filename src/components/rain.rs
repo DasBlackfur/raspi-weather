@@ -1,8 +1,21 @@
+use csv::Reader;
+use gloo::timers::callback::Interval;
 use gloo_utils::document;
+use reqwasm::http::Request;
 use web_sys::Element;
 use yew::{Component, Html, Properties};
 
-pub struct RainComponent;
+use crate::credentials::{INFLUX_TOKEN, INFLUX_ORG};
+
+pub struct RainComponent {
+    interval: Interval,
+    ph: f32
+}
+
+pub enum Msg {
+    Update,
+    Value(String)
+}
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
@@ -10,12 +23,50 @@ pub struct Props {
 }
 
 impl Component for RainComponent {
-    type Message = ();
+    type Message = Msg;
 
     type Properties = Props;
 
     fn create(ctx: &yew::Context<Self>) -> Self {
-        Self
+        let clock_hanlde = {
+            let link = ctx.link().clone();
+            Interval::new(10000, move || link.send_message(Msg::Update))
+        };
+        ctx.link().send_message(Msg::Update);
+        Self {
+            interval: clock_hanlde,
+            ph: 1.0,
+        }
+    }
+
+    fn update(&mut self, ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
+        match msg {
+            Msg::Update => {
+                ctx.link().send_future(async move {
+                    let response = Request::post(
+                        &format!("http://192.168.12.100:8086/api/v2/query?org={}", INFLUX_ORG),
+                    )
+                    .header("Authorization", &format!("Token {}", INFLUX_TOKEN))
+                    .header("accept", "application/csv")
+                    .header("Content-type", "application/vnd.flux")
+                    .body("from(bucket: \"mathome-sensors\")
+                    |> range(start: -1d)
+                    |> filter(fn: (r) => r[\"_measurement\"] == \"shellies\")
+                    |> filter(fn: (r) => r[\"_field\"] == \"pH\")
+                    |> last()")
+                    .send()
+                    .await
+                    .unwrap();
+
+                    Msg::Value(response.text().await.unwrap())
+                });
+                false
+            },
+            Msg::Value(str) => {
+                self.ph = Reader::from_reader(str.as_bytes()).records().next().unwrap().unwrap()[6].parse().unwrap_or(1.0);
+                true
+            },
+        }
     }
 
     fn view(&self, ctx: &yew::Context<Self>) -> yew::Html {
@@ -24,7 +75,8 @@ impl Component for RainComponent {
         div.set_inner_html(&format!(
             include_str!("sources/rain.html"),
             liter = level,
-            percent = 90 - get_percent_from_level(level)
+            percent = 90 - get_percent_from_level(level),
+            ph = format!("{} pH", self.ph)
         ));
         Html::VRef(div.into())
     }

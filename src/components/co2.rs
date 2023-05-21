@@ -75,7 +75,7 @@ impl Component for CO2Component {
                 <text x="40" y="73" style="font-size: 50px;">{ "!" }</text>
                 <text x="85" y="60" style="font-size: 30px;">{ "CO2" }</text>
                 <text x="0" y="130" style="font-size: 38px;">{ format!("{} ppm", &level) }</text>
-                <text x="0" y="195" style="font-sime: 38px;">{ format!("{} W", &self.watt)}</text>
+                <text x="0" y="195" style="font-size: 38px;">{ format!("{} W", &self.watt)}</text>
             </svg>
         )
     }
