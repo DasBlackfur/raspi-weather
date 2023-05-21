@@ -1,6 +1,19 @@
+use csv::Reader;
+use gloo::timers::callback::Interval;
+use reqwasm::http::Request;
 use yew::{html, Component, Properties};
 
-pub struct HumidityComponent;
+use crate::credentials::{INFLUX_TOKEN, INFLUX_ORG};
+
+pub struct HumidityComponent {
+    interval: Interval,
+    cl: f32
+}
+
+pub enum Msg {
+    Update,
+    Value(String)
+}
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
@@ -8,12 +21,49 @@ pub struct Props {
 }
 
 impl Component for HumidityComponent {
-    type Message = ();
+    type Message = Msg;
 
     type Properties = Props;
 
     fn create(ctx: &yew::Context<Self>) -> Self {
-        Self
+        let clock_hanlde = {
+            let link = ctx.link().clone();
+            Interval::new(10000, move || link.send_message(Msg::Update))
+        };
+        ctx.link().send_message(Msg::Update);
+        Self {
+            interval: clock_hanlde,
+            cl: 1.0,
+        }
+    }
+
+    fn update(&mut self, ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
+        match msg {
+            Msg::Update => {
+                ctx.link().send_future(async move {
+                    let response = Request::post(
+                        &format!("http://192.168.12.100:8086/api/v2/query?org={}", INFLUX_ORG),
+                    )
+                    .header("Authorization", &format!("Token {}", INFLUX_TOKEN))
+                    .header("accept", "application/csv")
+                    .header("Content-type", "application/vnd.flux")
+                    .body("from(bucket: \"mathome-sensors\")
+                    |> range(start: -1m)
+                    |> filter(fn: (r) => r[\"_measurement\"] == \"shellies\")
+                    |> filter(fn: (r) => r[\"_field\"] == \"Cl\")
+                    |> last()")
+                    .send()
+                    .await
+                    .unwrap();
+                    Msg::Value(response.text().await.unwrap())
+                });
+                false
+            },
+            Msg::Value(str) => {
+                self.cl = Reader::from_reader(str.as_bytes()).records().next().unwrap().unwrap()[6].parse().unwrap();
+                true
+            },
+        }
     }
 
     fn view(&self, ctx: &yew::Context<Self>) -> yew::Html {
@@ -38,15 +88,5 @@ fn get_color_from_percent(percent: &u8) -> String {
         11..=20 => "red".to_string(),
         0..=10 => "blue".to_string(),
         101..=u8::MAX => "blue".to_string(),
-    }
-}
-
-fn get_text_from_percent(percent: &u8) -> String {
-    match percent {
-        61..=100 => "Hohe".to_string(),
-        41..=60 => "Mittlere".to_string(),
-        11..=40 => "Niedrige".to_string(),
-        0..=10 => "BROKEN".to_string(),
-        101..=u8::MAX => "BROKEN".to_string(),
     }
 }

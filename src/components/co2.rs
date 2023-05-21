@@ -1,5 +1,5 @@
 use csv::Reader;
-use gloo::{timers::callback::Interval, console::externs::log};
+use gloo::{timers::callback::Interval};
 use reqwasm::http::Request;
 use yew::{html, Component, Properties};
 
