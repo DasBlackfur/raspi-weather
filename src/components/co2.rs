@@ -1,5 +1,5 @@
 use csv::Reader;
-use gloo::{timers::callback::Interval};
+use gloo::{timers::callback::Interval, console::{externs::log, console}};
 use reqwasm::http::Request;
 use yew::{html, Component, Properties};
 
@@ -7,7 +7,7 @@ use crate::credentials::{INFLUX_TOKEN, INFLUX_ORG};
 
 pub struct CO2Component {
     interval: Interval,
-    watt: u16
+    watt: f32
 }
 
 pub enum Msg {
@@ -33,7 +33,7 @@ impl Component for CO2Component {
         ctx.link().send_message(Msg::Update);
         Self {
             interval: clock_hanlde,
-            watt: 1,
+            watt: 1.0,
         }
     }
 
@@ -48,7 +48,7 @@ impl Component for CO2Component {
                     .header("accept", "application/csv")
                     .header("Content-type", "application/vnd.flux")
                     .body("from(bucket: \"mathome-sensors\")
-                    |> range(start: -1m)
+                    |> range(start: -1d)
                     |> filter(fn: (r) => r[\"_measurement\"] == \"shellies\")
                     |> filter(fn: (r) => r[\"_field\"] == \"apower\")
                     |> last()")
@@ -61,7 +61,7 @@ impl Component for CO2Component {
                 false
             },
             Msg::Value(str) => {
-                self.watt = Reader::from_reader(str.as_bytes()).records().next().unwrap().unwrap()[6].parse().unwrap();
+                self.watt = Reader::from_reader(str.as_bytes()).records().next().unwrap().unwrap()[6].parse().unwrap_or(1.0);
                 true
             },
         }
@@ -75,7 +75,7 @@ impl Component for CO2Component {
                 <text x="40" y="73" style="font-size: 50px;">{ "!" }</text>
                 <text x="85" y="60" style="font-size: 30px;">{ "CO2" }</text>
                 <text x="0" y="130" style="font-size: 38px;">{ format!("{} ppm", &level) }</text>
-                <text x="0" y="180" style="font-sime: 38px;">{ format!("{} W", &self.watt)}</text>
+                <text x="0" y="195" style="font-sime: 38px;">{ format!("{} W", &self.watt)}</text>
             </svg>
         )
     }

@@ -5,6 +5,8 @@ import xmltodict
 import json
 from paho.mqtt import client as mqtt_client
 
+time.sleep(10)
+
 client = mqtt_client.Client(f"pool-mqtt-{random.randint(0, 1000)}")
 client.connect("192.168.12.100", 1883)
 client.loop_start()
