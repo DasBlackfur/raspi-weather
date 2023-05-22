@@ -53,7 +53,7 @@ impl Component for SettingsComponent {
                     { "Letzte Aktualisierung:" } <br/>
                     {js_sys::Date::new(&JsValue::from_f64(ctx.props().timestamp * 1000.0)).to_locale_time_string("de-DE") }
                 </p>
-                <button class="button" onClick="window.location.reload();" style="padding-top:0px">
+                <button class="button" onClick="window.location.reload(true);" style="padding-top:0px">
                     {"⟳"}
                 </button>
             </>
