@@ -48,7 +48,7 @@ impl Component for HumidityComponent {
                     .header("accept", "application/csv")
                     .header("Content-type", "application/vnd.flux")
                     .body("from(bucket: \"mathome-sensors\")
-                    |> range(start: -5m)
+                    |> range(start: -1d)
                     |> filter(fn: (r) => r[\"_measurement\"] == \"shellies\")
                     |> filter(fn: (r) => r[\"_field\"] == \"Cl\")
                     |> last()")
