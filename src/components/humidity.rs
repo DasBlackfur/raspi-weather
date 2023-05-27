@@ -94,17 +94,17 @@ fn get_color_from_percent(percent: &u8) -> String {
 }
 
 fn get_color_from_cl(cl: f32) -> String {
-    if cl < 0.5 || cl > 1.0 {
+    if cl < 0.5 || cl > 1.05 {
         return "red".to_string();
     }
-    if cl < 0.6 || cl > 0.9 {
+    if cl < 0.6 || cl > 0.95 {
         return "yellow".to_string();
     }
     "black".to_string()
 }
 
 fn get_opacity_from_cl(cl: f32) -> String {
-    if cl > 0.6 && cl < 0.9 {
+    if cl >= 0.6 && cl <= 0.95 {
         return "0%".to_string();
     }
     "100%".to_string()
