@@ -74,7 +74,8 @@ impl Component for HumidityComponent {
                 <text x="40" y="73" style="font-size: 50px;">{ "!" }</text>
                 <text x="90" y="60" style="font-size: 25px;">{ "Feuchte" }</text>
                 <text x="55" y="130" style="font-size: 40px;">{ format!("{} %", &percent) }</text>
-                <text x="0" y="190" style="font-size: 38px;">{ format!("{} mg/l", &self.cl)}</text>
+                <rect x="0" y="155" width="160" height="45" fill={get_color_from_cl(self.cl)} fill-opacity={get_opacity_from_cl(self.cl)}/>
+                <text x="0" y="190" style="font-size: 38px;">{ format!("{:.2} mg/l", &self.cl)}</text>
             </svg>
         )
     }
@@ -90,4 +91,21 @@ fn get_color_from_percent(percent: &u8) -> String {
         0..=10 => "blue".to_string(),
         101..=u8::MAX => "blue".to_string(),
     }
+}
+
+fn get_color_from_cl(cl: f32) -> String {
+    if cl < 0.5 || cl > 1.0 {
+        return "red".to_string();
+    }
+    if cl < 0.6 || cl > 0.9 {
+        return "yellow".to_string();
+    }
+    "black".to_string()
+}
+
+fn get_opacity_from_cl(cl: f32) -> String {
+    if cl > 0.6 && cl < 0.9 {
+        return "0%".to_string();
+    }
+    "100%".to_string()
 }

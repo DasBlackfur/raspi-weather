@@ -76,7 +76,9 @@ impl Component for RainComponent {
             include_str!("sources/rain.html"),
             liter = level,
             percent = 90 - get_percent_from_level(level),
-            ph = format!("{} pH", self.ph)
+            ph_color = get_color_from_ph(self.ph),
+            ph_opacity = get_opacity_from_ph(self.ph),
+            ph = format!("{:.2} pH", self.ph)
         ));
         Html::VRef(div.into())
     }
@@ -89,4 +91,21 @@ fn get_percent_from_level(level: f32) -> u8 {
         percent if percent < 0.0 => 0,
         _ => percent as u8,
     }
+}
+
+fn get_color_from_ph(ph: f32) -> String {
+    if ph < 6.9 || ph > 7.5 {
+        return "red".to_string();
+    }
+    if ph < 7.0 || ph > 7.3 {
+        return "yellow".to_string();
+    }
+    "black".to_string()
+}
+
+fn get_opacity_from_ph(ph: f32) -> String {
+    if ph > 7.0 && ph < 7.3 {
+        return "0%".to_string();
+    }
+    "100%".to_string()
 }
