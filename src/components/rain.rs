@@ -94,7 +94,7 @@ fn get_percent_from_level(level: f32) -> u8 {
 }
 
 fn get_color_from_ph(ph: f32) -> String {
-    if ph < 6.9 || ph > 7.5 {
+    if ph < 6.9 || ph > 7.4 {
         return "red".to_string();
     }
     if ph < 7.0 || ph > 7.3 {
