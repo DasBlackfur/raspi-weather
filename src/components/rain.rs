@@ -104,7 +104,7 @@ fn get_color_from_ph(ph: f32) -> String {
 }
 
 fn get_opacity_from_ph(ph: f32) -> String {
-    if ph > 7.0 && ph < 7.3 {
+    if ph >= 7.0 && ph <= 7.3 {
         return "0%".to_string();
     }
     "100%".to_string()
