@@ -97,14 +97,14 @@ fn get_color_from_cl(cl: f32) -> String {
     if cl < 0.25 || cl > 0.8 {
         return "red".to_string();
     }
-    if cl < 0.3 || cl > 0.6 {
+    if cl < 0.3 || cl > 0.7 {
         return "yellow".to_string();
     }
     "black".to_string()
 }
 
 fn get_opacity_from_cl(cl: f32) -> String {
-    if cl >= 0.3 && cl <= 0.6 {
+    if cl >= 0.3 && cl <= 0.7 {
         return "0%".to_string();
     }
     "100%".to_string()
