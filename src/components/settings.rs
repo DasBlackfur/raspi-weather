@@ -1,4 +1,7 @@
-use gloo::{timers::callback::Interval, console::{__macro::JsValue, log, externs::log}};
+use gloo::{
+    console::{__macro::JsValue, externs::log, log},
+    timers::callback::Interval,
+};
 use yew::{html, Callback, Component, Properties};
 
 pub struct SettingsComponent {
@@ -8,8 +11,6 @@ pub struct SettingsComponent {
 pub enum Msg {
     Update,
 }
-
-
 
 #[derive(Clone, Properties, PartialEq)]
 pub struct Props {

@@ -1,18 +1,21 @@
 use csv::Reader;
-use gloo::{timers::callback::Interval, console::{externs::log, console}};
+use gloo::{
+    console::{console, externs::log},
+    timers::callback::Interval,
+};
 use reqwasm::http::Request;
 use yew::{html, Component, Properties};
 
-use crate::credentials::{INFLUX_TOKEN, INFLUX_ORG};
+use crate::credentials::{INFLUX_ORG, INFLUX_TOKEN};
 
 pub struct CO2Component {
     interval: Interval,
-    watt: f32
+    watt: f32,
 }
 
 pub enum Msg {
     Update,
-    Value(String)
+    Value(String),
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -41,17 +44,20 @@ impl Component for CO2Component {
         match msg {
             Msg::Update => {
                 ctx.link().send_future(async move {
-                    let response = Request::post(
-                        &format!("http://192.168.12.100:8086/api/v2/query?org={}", INFLUX_ORG),
-                    )
+                    let response = Request::post(&format!(
+                        "http://192.168.12.100:8086/api/v2/query?org={}",
+                        INFLUX_ORG
+                    ))
                     .header("Authorization", &format!("Token {}", INFLUX_TOKEN))
                     .header("accept", "application/csv")
                     .header("Content-type", "application/vnd.flux")
-                    .body("from(bucket: \"mathome-sensors\")
+                    .body(
+                        "from(bucket: \"mathome-sensors\")
                     |> range(start: -1d)
                     |> filter(fn: (r) => r[\"_measurement\"] == \"shellies\")
                     |> filter(fn: (r) => r[\"_field\"] == \"apower\")
-                    |> last()")
+                    |> last()",
+                    )
                     .send()
                     .await
                     .unwrap();
@@ -59,11 +65,17 @@ impl Component for CO2Component {
                     Msg::Value(response.text().await.unwrap())
                 });
                 false
-            },
+            }
             Msg::Value(str) => {
-                self.watt = Reader::from_reader(str.as_bytes()).records().next().unwrap().unwrap()[6].parse().unwrap_or(1.0);
+                self.watt = Reader::from_reader(str.as_bytes())
+                    .records()
+                    .next()
+                    .unwrap()
+                    .unwrap()[6]
+                    .parse()
+                    .unwrap_or(1.0);
                 true
-            },
+            }
         }
     }
 

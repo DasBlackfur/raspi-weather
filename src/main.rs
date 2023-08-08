@@ -10,19 +10,19 @@ use credentials::*;
 
 use components::co2::CO2Component;
 use components::humidity::HumidityComponent;
+use components::rain::RainComponent;
 use components::settings::SettingsComponent;
 use components::temperature::TemperatureComponent;
 use components::temperature_out::TemperatureComponentOut;
 use components::wind_angle::WindAngleComponent;
 use components::wind_bag::WindBagComponent;
-use components::rain::RainComponent;
 
 pub enum Msg {
     Update,
     Settings,
     Increment,
     Refresh,
-    Token(String),
+    Token(String, String),
     Value(String),
 }
 
@@ -38,6 +38,7 @@ pub struct App {
     rain: f32,
     interval: Interval,
     token: String,
+    refresh_token: String,
     got_token: bool,
     timestamp: f64,
 }
@@ -55,20 +56,27 @@ impl Component for App {
 
         ctx.link().send_future(async {
             //let response = Request::post(&"https://api.netatmo.com/oauth2/token?grant_type=password&client_id=".to_string() + CLIENT_ID.to + "&client_secret=" + &CLIENT_SECRET + "&username=" + &USERNAME + "&password=" + &PASSWORD).send().await.unwrap();
+            let response = Request::get("http://192.168.12.75:8081/get/Wetterstation")
+                .send()
+                .await
+                .unwrap();
+            let code = response.text().await.unwrap().as_str().to_string();
+            if code == "NONE" {
+                return Msg::Update;
+            }
             let response = Request::post("https://api.netatmo.com/oauth2/token")
                 .header(
                     "Content-Type",
                     "application/x-www-form-urlencoded;charset=UTF-8",
                 )
                 .body(
-                    "grant_type=password&client_id=".to_string()
+                    "grant_type=authorization_code&client_id=".to_string()
                         + CLIENT_ID
                         + "&client_secret="
                         + CLIENT_SECRET
-                        + "&username="
-                        + USERNAME
-                        + "&password="
-                        + PASSWORD,
+                        + "&code="
+                        + &code
+                        + "&scope=read_station&redirect_uri=http://192.168.12.75:8081/auth",
                 )
                 .send()
                 .await
@@ -78,6 +86,12 @@ impl Component for App {
             Msg::Token(
                 thingy
                     .pointer("/access_token")
+                    .unwrap()
+                    .as_str()
+                    .unwrap()
+                    .to_string(),
+                thingy
+                    .pointer("/refresh_token")
                     .unwrap()
                     .as_str()
                     .unwrap()
@@ -94,6 +108,7 @@ impl Component for App {
             wind_speed: 0,
             interval: data_handle,
             token: "".to_string(),
+            refresh_token: "".to_string(),
             got_token: false,
             temperature_out: 0.0,
             rain: 0.0,
@@ -169,7 +184,8 @@ impl Component for App {
                     .pointer("/body/devices/0/modules/1/dashboard_data/sum_rain_1")
                     .unwrap_or(&Value::from(0))
                     .as_f64()
-                    .unwrap() * 10.0) as u32
+                    .unwrap()
+                    * 10.0) as u32
                 {
                     0 => false,
                     _ => false,
@@ -191,7 +207,7 @@ impl Component for App {
                     .unwrap();
                 true
             }
-            Msg::Token(token) => {
+            Msg::Token(token, refresh_token) => {
                 self.token = token;
                 self.got_token = true;
                 ctx.link().send_message(Msg::Update);
@@ -224,6 +240,12 @@ impl Component for App {
                     Msg::Token(
                         thingy
                             .pointer("/access_token")
+                            .unwrap()
+                            .as_str()
+                            .unwrap()
+                            .to_string(),
+                        thingy
+                            .pointer("refresh_token")
                             .unwrap()
                             .as_str()
                             .unwrap()

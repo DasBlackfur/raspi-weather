@@ -32,7 +32,7 @@ impl Component for TemperatureComponentOut {
 }
 
 fn get_percent_from_temperature(temperature: f32) -> u8 {
-    let percent = (temperature +10.0) * 2.0;
+    let percent = (temperature + 10.0) * 2.0;
     match percent {
         percent if percent > 100.0 => 100,
         percent if percent < 0.0 => 0,

@@ -3,16 +3,16 @@ use gloo::timers::callback::Interval;
 use reqwasm::http::Request;
 use yew::{html, Component, Properties};
 
-use crate::credentials::{INFLUX_TOKEN, INFLUX_ORG};
+use crate::credentials::{INFLUX_ORG, INFLUX_TOKEN};
 
 pub struct HumidityComponent {
     interval: Interval,
-    cl: f32
+    cl: f32,
 }
 
 pub enum Msg {
     Update,
-    Value(String)
+    Value(String),
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -41,28 +41,37 @@ impl Component for HumidityComponent {
         match msg {
             Msg::Update => {
                 ctx.link().send_future(async move {
-                    let response = Request::post(
-                        &format!("http://192.168.12.100:8086/api/v2/query?org={}", INFLUX_ORG),
-                    )
+                    let response = Request::post(&format!(
+                        "http://192.168.12.100:8086/api/v2/query?org={}",
+                        INFLUX_ORG
+                    ))
                     .header("Authorization", &format!("Token {}", INFLUX_TOKEN))
                     .header("accept", "application/csv")
                     .header("Content-type", "application/vnd.flux")
-                    .body("from(bucket: \"mathome-sensors\")
+                    .body(
+                        "from(bucket: \"mathome-sensors\")
                     |> range(start: -1d)
                     |> filter(fn: (r) => r[\"_measurement\"] == \"shellies\")
                     |> filter(fn: (r) => r[\"_field\"] == \"Cl\")
-                    |> last()")
+                    |> last()",
+                    )
                     .send()
                     .await
                     .unwrap();
                     Msg::Value(response.text().await.unwrap())
                 });
                 false
-            },
+            }
             Msg::Value(str) => {
-                self.cl = Reader::from_reader(str.as_bytes()).records().next().unwrap().unwrap()[6].parse().unwrap();
+                self.cl = Reader::from_reader(str.as_bytes())
+                    .records()
+                    .next()
+                    .unwrap()
+                    .unwrap()[6]
+                    .parse()
+                    .unwrap();
                 true
-            },
+            }
         }
     }
 
