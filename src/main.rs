@@ -209,12 +209,19 @@ impl Component for App {
             }
             Msg::Token(token, refresh_token) => {
                 self.token = token;
+                self.refresh_token = refresh_token;
                 self.got_token = true;
                 ctx.link().send_message(Msg::Update);
                 true
             }
             Msg::Refresh => {
                 self.got_token = false;
+                let body = "grant_type=refresh&client_id=".to_string()
+                    + CLIENT_ID
+                    + "&client_secret="
+                    + CLIENT_SECRET
+                    + "&refresh_token="
+                    + &self.refresh_token;
                 ctx.link().send_future(async {
                     //let response = Request::post(&"https://api.netatmo.com/oauth2/token?grant_type=password&client_id=".to_string() + CLIENT_ID.to + "&client_secret=" + &CLIENT_SECRET + "&username=" + &USERNAME + "&password=" + &PASSWORD).send().await.unwrap();
                     let response = Request::post("https://api.netatmo.com/oauth2/token")
@@ -222,16 +229,7 @@ impl Component for App {
                             "Content-Type",
                             "application/x-www-form-urlencoded;charset=UTF-8",
                         )
-                        .body(
-                            "grant_type=password&client_id=".to_string()
-                                + CLIENT_ID
-                                + "&client_secret="
-                                + CLIENT_SECRET
-                                + "&username="
-                                + USERNAME
-                                + "&password="
-                                + PASSWORD,
-                        )
+                        .body(body)
                         .send()
                         .await
                         .unwrap();
