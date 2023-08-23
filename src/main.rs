@@ -216,7 +216,7 @@ impl Component for App {
             }
             Msg::Refresh => {
                 self.got_token = false;
-                let body = "grant_type=refresh&client_id=".to_string()
+                let body = "grant_type=refresh_token&client_id=".to_string()
                     + CLIENT_ID
                     + "&client_secret="
                     + CLIENT_SECRET
