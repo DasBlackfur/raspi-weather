@@ -316,7 +316,7 @@ impl Component for App {
                                 <HumidityComponent humidity={self.humidity} />
                             </div>
                             <div>
-                                <SettingsComponent settings_callback={ctx.link().callback(|_| Msg::Settings)} timestamp={self.timestamp}/>
+                                <SettingsComponent settings_callback={ctx.link().callback(|_| Msg::Refresh)} timestamp={self.timestamp}/>
                             </div>
                         </div>
                         <style>
