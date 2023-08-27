@@ -1,6 +1,8 @@
+use gloo::console::console;
 use gloo::timers::callback::Interval;
 use reqwasm::http::Request;
 use serde_json::Value;
+use wasm_bindgen::JsValue;
 use yew::prelude::*;
 
 mod components;
@@ -233,6 +235,7 @@ impl Component for App {
                         .send()
                         .await
                         .unwrap();
+                    console!(JsValue::from_str(&response.text().await.unwrap()));
                     let thingy: serde_json::Value =
                         serde_json::from_str(&response.text().await.unwrap()).unwrap();
                     Msg::Token(
