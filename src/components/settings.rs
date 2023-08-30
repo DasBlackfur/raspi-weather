@@ -1,5 +1,5 @@
 use gloo::{
-    console::{__macro::JsValue, externs::log, log},
+    console::{__macro::JsValue},
     timers::callback::Interval,
 };
 use yew::{html, Callback, Component, Properties};

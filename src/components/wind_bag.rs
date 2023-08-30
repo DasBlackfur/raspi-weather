@@ -1,6 +1,6 @@
 use gloo_utils::document;
 use web_sys::Element;
-use yew::{html, Component, Html, Properties};
+use yew::{Component, Html, Properties};
 
 pub struct WindBagComponent;
 
@@ -14,7 +14,7 @@ impl Component for WindBagComponent {
 
     type Properties = Props;
 
-    fn create(ctx: &yew::Context<Self>) -> Self {
+    fn create(_ctx: &yew::Context<Self>) -> Self {
         Self
     }
 

@@ -103,17 +103,17 @@ fn get_percent_from_level(level: f32) -> u8 {
 }
 
 fn get_color_from_ph(ph: f32) -> String {
-    if ph < 6.9 || ph > 7.4 {
+    if !(6.9..=7.4).contains(&ph) {
         return "red".to_string();
     }
-    if ph < 7.0 || ph > 7.3 {
+    if !(7.0..=7.3).contains(&ph) {
         return "yellow".to_string();
     }
     "black".to_string()
 }
 
 fn get_opacity_from_ph(ph: f32) -> String {
-    if ph >= 7.0 && ph <= 7.3 {
+    if (7.0..=7.3).contains(&ph) {
         return "0%".to_string();
     }
     "100%".to_string()

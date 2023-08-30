@@ -14,7 +14,7 @@ impl Component for TemperatureComponentOut {
 
     type Properties = Props;
 
-    fn create(ctx: &yew::Context<Self>) -> Self {
+    fn create(_ctx: &yew::Context<Self>) -> Self {
         Self
     }
 

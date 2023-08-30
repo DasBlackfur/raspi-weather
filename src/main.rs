@@ -1,8 +1,8 @@
-use gloo::console::console;
+
 use gloo::timers::callback::Interval;
 use reqwasm::http::Request;
 use serde_json::Value;
-use wasm_bindgen::JsValue;
+
 use yew::prelude::*;
 
 mod components;

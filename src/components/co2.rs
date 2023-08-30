@@ -1,6 +1,5 @@
 use csv::Reader;
 use gloo::{
-    console::{console, externs::log},
     timers::callback::Interval,
 };
 use reqwasm::http::Request;
