@@ -236,8 +236,7 @@ impl Component for App {
                         .await
                         .unwrap();
                     let text = &response.text().await.unwrap();
-                    let thingy: serde_json::Value =
-                        serde_json::from_str(text).unwrap();
+                    let thingy: serde_json::Value = serde_json::from_str(text).unwrap();
                     console!(JsValue::from_str(text));
                     Msg::Token(
                         thingy
