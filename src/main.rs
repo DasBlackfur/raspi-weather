@@ -235,9 +235,8 @@ impl Component for App {
                         .send()
                         .await
                         .unwrap();
-                    let text = &response.text().await.unwrap();
-                    let thingy: serde_json::Value = serde_json::from_str(text).unwrap();
-                    console!(JsValue::from_str(text));
+                    let thingy: serde_json::Value =
+                        serde_json::from_str(&response.text().await.unwrap()).unwrap();
                     Msg::Token(
                         thingy
                             .pointer("/access_token")
@@ -246,7 +245,7 @@ impl Component for App {
                             .unwrap()
                             .to_string(),
                         thingy
-                            .pointer("refresh_token")
+                            .pointer("/refresh_token")
                             .unwrap()
                             .as_str()
                             .unwrap()
