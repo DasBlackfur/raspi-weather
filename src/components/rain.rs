@@ -1,3 +1,5 @@
+
+
 use csv::Reader;
 use gloo::timers::callback::Interval;
 use gloo_utils::document;
@@ -8,7 +10,7 @@ use yew::{Component, Html, Properties};
 use crate::credentials::{INFLUX_ORG, INFLUX_TOKEN};
 
 pub struct RainComponent {
-    interval: Interval,
+    _interval: Interval,
     ph: f32,
 }
 
@@ -34,7 +36,7 @@ impl Component for RainComponent {
         };
         ctx.link().send_message(Msg::Update);
         Self {
-            interval: clock_hanlde,
+            _interval: clock_hanlde,
             ph: 1.0,
         }
     }
@@ -87,7 +89,7 @@ impl Component for RainComponent {
             percent = 90 - get_percent_from_level(level),
             ph_color = get_color_from_ph(self.ph),
             ph_opacity = get_opacity_from_ph(self.ph),
-            ph = format!("{:.2} pH", self.ph)
+            ph = self.ph
         ));
         Html::VRef(div.into())
     }

@@ -1,14 +1,12 @@
 use csv::Reader;
-use gloo::{
-    timers::callback::Interval,
-};
+use gloo::timers::callback::Interval;
 use reqwasm::http::Request;
 use yew::{html, Component, Properties};
 
 use crate::credentials::{INFLUX_ORG, INFLUX_TOKEN};
 
 pub struct CO2Component {
-    interval: Interval,
+    _interval: Interval,
     watt: f32,
 }
 
@@ -34,7 +32,7 @@ impl Component for CO2Component {
         };
         ctx.link().send_message(Msg::Update);
         Self {
-            interval: clock_hanlde,
+            _interval: clock_hanlde,
             watt: 1.0,
         }
     }
@@ -99,14 +97,5 @@ fn get_color_from_level(level: &u16) -> String {
         901..=1200 => "yellow".to_string(),
         1201..=1500 => "orange".to_string(),
         1501..=u16::MAX => "red".to_string(),
-    }
-}
-
-fn get_text_from_level(level: &u16) -> String {
-    match level {
-        0..=900 => "Gut".to_string(),
-        901..=1000 => "Mittel".to_string(),
-        1001..=1100 => "Schlecht".to_string(),
-        1101..=u16::MAX => "BROKEN".to_string(),
     }
 }

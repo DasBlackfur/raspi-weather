@@ -1,11 +1,11 @@
 use gloo::{
-    console::{__macro::JsValue},
+    console::__macro::JsValue,
     timers::callback::Interval,
 };
 use yew::{html, Callback, Component, Properties};
 
 pub struct SettingsComponent {
-    interval: Interval,
+    _interval: Interval,
 }
 
 pub enum Msg {
@@ -29,7 +29,7 @@ impl Component for SettingsComponent {
             Interval::new(1000, move || link.send_message(Msg::Update))
         };
         Self {
-            interval: clock_hanlde,
+            _interval: clock_hanlde,
         }
     }
 

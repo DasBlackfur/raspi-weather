@@ -6,7 +6,7 @@ use yew::{html, Component, Properties};
 use crate::credentials::{INFLUX_ORG, INFLUX_TOKEN};
 
 pub struct HumidityComponent {
-    interval: Interval,
+    _interval: Interval,
     cl: f32,
 }
 
@@ -32,7 +32,7 @@ impl Component for HumidityComponent {
         };
         ctx.link().send_message(Msg::Update);
         Self {
-            interval: clock_hanlde,
+            _interval: clock_hanlde,
             cl: 1.0,
         }
     }

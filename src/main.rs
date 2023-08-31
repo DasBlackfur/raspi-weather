@@ -1,4 +1,4 @@
-
+#![allow(non_camel_case_types)]
 use gloo::timers::callback::Interval;
 use reqwasm::http::Request;
 use serde_json::Value;
@@ -38,14 +38,13 @@ pub struct App {
     humidity: u8,
     wind_speed: i16,
     rain: f32,
-    interval: Interval,
+    _interval: Interval,
     token: String,
     refresh_token: String,
     got_token: bool,
     timestamp: f64,
 }
 
-#[allow(unused_variables)]
 impl Component for App {
     type Message = Msg;
     type Properties = ();
@@ -108,7 +107,7 @@ impl Component for App {
             co2: 0,
             humidity: 0,
             wind_speed: 0,
-            interval: data_handle,
+            _interval: data_handle,
             token: "".to_string(),
             refresh_token: "".to_string(),
             got_token: false,
