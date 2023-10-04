@@ -6,7 +6,7 @@ use yew::{html, Component, Properties};
 use crate::credentials::{INFLUX_ORG, INFLUX_TOKEN};
 
 pub struct HumidityComponent {
-    _interval: Interval,
+    //_interval: Interval,
     cl: f32,
 }
 
@@ -26,13 +26,13 @@ impl Component for HumidityComponent {
     type Properties = Props;
 
     fn create(ctx: &yew::Context<Self>) -> Self {
-        let clock_hanlde = {
-            let link = ctx.link().clone();
-            Interval::new(10000, move || link.send_message(Msg::Update))
-        };
-        ctx.link().send_message(Msg::Update);
+        //let clock_hanlde = {
+        //    let link = ctx.link().clone();
+        //    Interval::new(10000, move || link.send_message(Msg::Update))
+        //};
+        //ctx.link().send_message(Msg::Update);
         Self {
-            _interval: clock_hanlde,
+            //_interval: clock_hanlde,
             cl: 1.0,
         }
     }
@@ -83,8 +83,8 @@ impl Component for HumidityComponent {
                 <text x="40" y="73" style="font-size: 50px;">{ "!" }</text>
                 <text x="90" y="60" style="font-size: 25px;">{ "Feuchte" }</text>
                 <text x="55" y="130" style="font-size: 40px;">{ format!("{} %", &percent) }</text>
-                <rect x="0" y="155" width="160" height="45" fill={get_color_from_cl(self.cl)} fill-opacity={get_opacity_from_cl(self.cl)}/>
-                <text x="0" y="190" style="font-size: 38px;">{ format!("{:.2} mg/l", &self.cl)}</text>
+                //<rect x="0" y="155" width="160" height="45" fill={get_color_from_cl(self.cl)} fill-opacity={get_opacity_from_cl(self.cl)}/>
+                //<text x="0" y="190" style="font-size: 38px;">{ format!("{:.2} mg/l", &self.cl)}</text>
             </svg>
         )
     }
