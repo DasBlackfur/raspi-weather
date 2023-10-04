@@ -1,7 +1,4 @@
-use gloo::{
-    console::__macro::JsValue,
-    timers::callback::Interval,
-};
+use gloo::{console::__macro::JsValue, timers::callback::Interval};
 use yew::{html, Callback, Component, Properties};
 
 pub struct SettingsComponent {

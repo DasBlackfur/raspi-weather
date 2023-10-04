@@ -39,6 +39,7 @@ pub struct App {
     wind_speed: i16,
     rain: f32,
     _interval: Interval,
+    pressure: f32,
     token: String,
     refresh_token: String,
     got_token: bool,
@@ -114,6 +115,7 @@ impl Component for App {
             temperature_out: 0.0,
             rain: 0.0,
             timestamp: 0.0,
+            pressure: 0.0,
         }
     }
 
@@ -198,6 +200,11 @@ impl Component for App {
                     .unwrap() as f32;
                 self.temperature_out = thingy
                     .pointer("/body/devices/0/modules/0/dashboard_data/Temperature")
+                    .unwrap_or(&Value::from(0.0))
+                    .as_f64()
+                    .unwrap() as f32;
+                self.pressure = thingy
+                    .pointer("/body/devices/0/dashboard_data/Pressure")
                     .unwrap_or(&Value::from(0.0))
                     .as_f64()
                     .unwrap() as f32;
@@ -314,7 +321,7 @@ impl Component for App {
                                 <RainComponent rain_level={self.rain}/>
                             </div>
                             <div>
-                                <HumidityComponent humidity={self.humidity} />
+                                <HumidityComponent humidity={self.humidity} pressure={self.pressure}/>
                             </div>
                             <div>
                                 <SettingsComponent settings_callback={ctx.link().callback(|_| Msg::Refresh)} timestamp={self.timestamp}/>

@@ -18,6 +18,7 @@ pub enum Msg {
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     pub humidity: u8,
+    pub pressure: f32
 }
 
 impl Component for HumidityComponent {
@@ -77,12 +78,17 @@ impl Component for HumidityComponent {
 
     fn view(&self, ctx: &yew::Context<Self>) -> yew::Html {
         let percent = ctx.props().humidity;
+        let pressure = ctx.props().pressure;
         html!(
             <svg width="200px" height="200px">
                 <polygon points="20,80 80,80, 50,20" stroke="black" stroke-width="5" fill={get_color_from_percent(&percent)}/>
                 <text x="40" y="73" style="font-size: 50px;">{ "!" }</text>
-                <text x="90" y="60" style="font-size: 25px;">{ "Feuchte" }</text>
-                <text x="55" y="130" style="font-size: 40px;">{ format!("{} %", &percent) }</text>
+                <text x="90" y="40" style="font-size: 25px;">{ "Feuchte" }</text>
+                <text x="95" y="90" style="font-size: 40px;">{ format!("{} %", &percent) }</text>
+                <polygon points="20,160 80,160, 50,100" stroke="black" stroke-width="5" fill={get_color_from_pressure(&pressure)}/>
+                <text x="40" y="153" style="font-size: 50px;">{ "!" }</text>
+                <text x="90" y="140" style="font-size: 25px;">{ "Luftdruck" }</text>
+                <text x="35" y="195" style="font-size: 25px;">{ format!("{} mbar", &pressure) }</text>
                 //<rect x="0" y="155" width="160" height="45" fill={get_color_from_cl(self.cl)} fill-opacity={get_opacity_from_cl(self.cl)}/>
                 //<text x="0" y="190" style="font-size: 38px;">{ format!("{:.2} mg/l", &self.cl)}</text>
             </svg>
@@ -100,6 +106,10 @@ fn get_color_from_percent(percent: &u8) -> String {
         0..=10 => "blue".to_string(),
         101..=u8::MAX => "blue".to_string(),
     }
+}
+
+fn get_color_from_pressure(pressure: &f32) -> String {
+    "green".to_string()
 }
 
 fn get_color_from_cl(cl: f32) -> String {
