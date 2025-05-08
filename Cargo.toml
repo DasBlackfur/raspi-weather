@@ -12,7 +12,6 @@ gloo = "*"
 js-sys = "*"
 serde_json = "*"
 csv = "*"
-wasm-bindgen = "*"
 
 
 [dependencies.web-sys]

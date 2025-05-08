@@ -2,3 +2,4 @@
 /dist
 /src/credentials.rs
 .DS_Store
+/.idea

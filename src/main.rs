@@ -83,7 +83,7 @@ impl Component for App {
                 .send()
                 .await
                 .unwrap();
-            let thingy: serde_json::Value =
+            let thingy: Value =
                 serde_json::from_str(&response.text().await.unwrap()).unwrap();
             Msg::Token(
                 thingy
@@ -132,14 +132,15 @@ impl Component for App {
                         .header("Authorization", &format!("Bearer {}", token))
                         .header("accept", "application/json")
                         .send()
-                        .await
-                        .unwrap();
+                        .await;
 
-                        if response.status() != 200 {
-                            return Msg::Refresh;
+                        if let Ok(response) = response {
+                            if response.status() == 200 {
+                                return Msg::Value(response.text().await.unwrap())
+                            }
                         }
 
-                        Msg::Value(response.text().await.unwrap())
+                        Msg::Refresh
                     });
                 }
                 false
@@ -157,7 +158,7 @@ impl Component for App {
                 true
             }
             Msg::Value(val) => {
-                let thingy: serde_json::Value = serde_json::from_str(&val).unwrap();
+                let thingy: Value = serde_json::from_str(&val).unwrap();
                 self.temperature = thingy
                     .pointer("/body/devices/0/dashboard_data/Temperature")
                     .unwrap_or(&Value::from(0.0))
@@ -241,7 +242,7 @@ impl Component for App {
                         .send()
                         .await
                         .unwrap();
-                    let thingy: serde_json::Value =
+                    let thingy: Value =
                         serde_json::from_str(&response.text().await.unwrap()).unwrap();
                     Msg::Token(
                         thingy

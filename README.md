@@ -9,6 +9,6 @@ Add a file to `src/credentials.rs` with these contents.
 ```rust
 pub static CLIENT_ID: &str = "";
 pub static CLIENT_SECRET: &str = "";
-pub static USERNAME: &str = "";
-pub static PASSWORD: &str = "";
+pub static INFLUX_ORG: &str = "";
+pub static INFLUX_TOKEN: &str = "";
 ```
