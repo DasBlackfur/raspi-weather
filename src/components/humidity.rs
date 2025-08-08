@@ -82,11 +82,11 @@ impl Component for HumidityComponent {
         html!(
             <svg width="200px" height="200px">
                 <polygon points="20,80 80,80, 50,20" stroke="black" stroke-width="5" fill={get_color_from_percent(&percent)}/>
-                <text x="55" y="73" style="font-size: 50px;">{ "!" }</text>
+                <text x="45" y="73" style="font-size: 50px;">{ "!" }</text>
                 <text x="90" y="40" style="font-size: 25px;">{ "Feuchte" }</text>
                 <text x="95" y="90" style="font-size: 40px;">{ format!("{} %", &percent) }</text>
                 <polygon points="20,160 80,160, 50,100" stroke="black" stroke-width="5" fill={get_color_from_pressure(&pressure)}/>
-                <text x="55" y="153" style="font-size: 50px;">{ "!" }</text>
+                <text x="45" y="153" style="font-size: 50px;">{ "!" }</text>
                 <text x="90" y="140" style="font-size: 25px;">{ "Luftdruck" }</text>
                 <text x="35" y="195" style="font-size: 25px;">{ format!("{} mbar", &pressure) }</text>
                 //<rect x="0" y="155" width="160" height="45" fill={get_color_from_cl(self.cl)} fill-opacity={get_opacity_from_cl(self.cl)}/>
